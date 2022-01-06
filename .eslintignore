@@ -1,3 +1,7 @@
-dist/*
-webpack.config*
-*.test.js
+/config
+public
+dist
+.umi
+mock
+i18n.js
+/doc
