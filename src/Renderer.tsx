@@ -1,9 +1,9 @@
 import React from 'react';
-import renders from './Render';
-import DownloadTable from './DownloadTable';
-import StyledLayout from './StyledLayout';
+import renders from './components/Render';
+import DownloadTable from './components/DownloadTable';
+import StyledLayout from './components/StyledLayout';
 
-import colors from '../styles/color';
+import colors from './styles/color';
 
 const Renderer = (config: {
   type: any;

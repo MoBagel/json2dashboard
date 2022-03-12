@@ -4,7 +4,7 @@ import { Menu, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
 import renders from './Render';
-import Renderer from './Renderer';
+import Renderer from '../Renderer';
 
 const menu: React.FC<{
   onDownload: MouseEventHandler<HTMLDivElement> | undefined;

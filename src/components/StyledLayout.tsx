@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import renders from './Render';
-import Renderer from './Renderer';
+import Renderer from '../Renderer';
 
 const StyledLayout: React.FC<{
   config: {

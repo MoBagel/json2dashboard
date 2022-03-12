@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Renderer from '../components/Renderer';
+import Renderer from '../Renderer';
 
 const Dashboard: React.FC<{
   data: {
