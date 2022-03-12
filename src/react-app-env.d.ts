@@ -1,1 +1,1 @@
-declare module '*.less';
+/// <reference types="react-scripts" />

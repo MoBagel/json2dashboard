@@ -1,5 +1,5 @@
 <h1 align="center">
-    Awesome Dashboard
+    Json to Dashboard
 </h1>
 
 <div align="center">
@@ -12,9 +12,9 @@ It's built for using on Mobagel 8ndpoint's project. We wrapped ant design's comp
 
 - Install plugin 
 ```
-yarn add awesome-dashboard
+yarn add json2dashboard
 // or with npm
-npm install awesome-dashboard
+npm install json2dashboard
 ```
 
 ## Usage

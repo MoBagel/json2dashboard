@@ -11,7 +11,7 @@ import NpmImport from 'less-plugin-npm-import';
 import pkg from './package.json';
 
 export default {
-  input: "src/index.tsx",
+  input: "src/Renderer.tsx",
   output: [{
     file: pkg.main,
     format: 'cjs',

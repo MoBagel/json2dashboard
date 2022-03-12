@@ -1,0 +1,169 @@
+@import "~antd/es/style/themes/default.less";
+
+@font-face {
+  font-weight: 700;
+  font-family: Poppins;
+  font-style: normal;
+  src: url("../public/fonts/Poppins/Poppins-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-weight: 500;
+  font-family: Poppins;
+  font-style: normal;
+  src: url("../public/fonts/Poppins/Poppins-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-weight: 400;
+  font-family: Poppins;
+  font-style: normal;
+  src: url("../public/fonts/Poppins/Poppins-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-weight: 700;
+  font-family: Noto Sans TC;
+  font-style: normal;
+  src: url("/public/fonts/Noto_Sans_TC/NotoSansTC-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-weight: 500;
+  font-family: Noto Sans TC;
+  font-style: normal;
+  src: url("/public/fonts/Noto_Sans_TC/NotoSansTC-Medium.otf")
+    format("opentype");
+}
+
+@font-face {
+  font-weight: 400;
+  font-family: Noto Sans TC;
+  font-style: normal;
+  src: url("/public/fonts/Noto_Sans_TC/NotoSansTC-Regular.otf")
+    format("opentype");
+}
+
+html,
+body {
+  font-family: "Poppins", "Noto Sans TC";
+  background-color: @layout-body-background;
+}
+#root-master,
+#root {
+  height: 100%;
+}
+
+.colorWeak {
+  filter: invert(80%);
+}
+
+.ant-layout {
+  min-height: 100vh;
+}
+.ant-pro-global-footer {
+  margin: 0;
+}
+.ant-page-header {
+  max-width: 1440px;
+  margin: 0 auto !important;
+  padding: 24px 64px !important;
+}
+.ant-page-header-heading-title {
+  line-height: 1.5em !important;
+}
+.ant-pro-page-container-children-content {
+  max-width: 1440px;
+  margin: 0 auto !important;
+  padding: 0 64px 128px;
+}
+
+.ant-space {
+  width: inherit;
+  .ant-space-item {
+    width: inherit;
+  }
+}
+.ant-btn-primary {
+  font-weight: 700;
+}
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.double-line-divider {
+  width: 100%;
+  height: 3px;
+  border-top: 1px double black;
+  border-bottom: 1px double black;
+}
+
+// Typography Style
+.bold {
+  font-weight: 700;
+}
+.text-body {
+  font-size: 16px;
+}
+.text-caption {
+  font-size: 14px;
+}
+
+@media (max-width: @screen-xs) {
+  .ant-table {
+    width: 100%;
+    overflow-x: auto;
+    &-thead > tr,
+    &-tbody > tr {
+      > th,
+      > td {
+        white-space: pre;
+        > span {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+@media print {
+  html,
+  body {
+    height: initial !important;
+    overflow: initial !important;
+    -webkit-print-color-adjust: exact;
+  }
+}
+@media print {
+  .page-break {
+    margin-top: 1rem;
+    page-break-inside: avoid;
+  }
+}
+
+// 兼容IE11
+@media screen and(-ms-high-contrast: active), (-ms-high-contrast: none) {
+  body .ant-design-pro > .ant-layout {
+    min-height: 100vh;
+  }
+}

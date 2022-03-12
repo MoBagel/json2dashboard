@@ -1,8 +1,18 @@
-import { HeaderRight } from './RightContent';
-import type { HeaderRightProps } from './RightContent';
-import { NotificationBar } from './NotificationBar';
-import type { NotificationBarProps } from './NotificationBar';
-import { getSsoUrl, isUrl } from './utils/utils';
+import React from "react";
+import ReactDOM from "react-dom";
 
-export { HeaderRight, NotificationBar, getSsoUrl, isUrl };
-export type { HeaderRightProps, NotificationBarProps };
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById("root")
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
