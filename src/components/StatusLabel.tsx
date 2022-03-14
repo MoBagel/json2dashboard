@@ -11,11 +11,12 @@ const Label = styled.div`
 `;
 
 const StatusLabel: React.FC<{
+  statusColor: string;
   props: {
     statusColor: string;
   };
-}> = (props) => {
-  return <Label bgColor={colors[props?.statusColor]} {...props} />;
+}> = ({ props, ...restProps }) => {
+  return <Label bgColor={colors[restProps?.statusColor]} {...props} />;
 };
 
 export default StatusLabel;

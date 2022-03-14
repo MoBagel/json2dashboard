@@ -6,7 +6,7 @@ import { Typography } from 'antd';
 import { Button, Switch } from 'antd';
 import data from './data';
 import './App.less';
-
+import './index.css';
 import ErrorBoundary from './ErrorBoundary';
 
 import Dashboard from './Editor/Dashboard';
