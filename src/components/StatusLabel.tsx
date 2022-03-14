@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import colors from '../styles/color';
 
@@ -9,8 +10,12 @@ const Label = styled.div`
   background: ${(props) => props.bgColor || '#eee'};
 `;
 
-function StatusLabel(props) {
-  return <Label bgColor={colors[props?.statusColor]} />;
-}
+const StatusLabel: React.FC<{
+  props: {
+    statusColor: string;
+  };
+}> = (props) => {
+  return <Label bgColor={colors[props?.statusColor]} {...props} />;
+};
 
 export default StatusLabel;

@@ -44,7 +44,7 @@ import {
   Timeline,
   Alert,
 } from 'antd';
-import { StatusLabel } from '.';
+import StatusLabel from './StatusLabel';
 
 import { Line } from '@ant-design/charts';
 import { Pie, Scatter } from '@ant-design/plots';
