@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/json2dashboard/static/css/main.69f722d2.css",
-    "main.js": "/json2dashboard/static/js/main.cb08fa15.js",
+    "main.css": "/json2dashboard/static/css/main.65197a6f.css",
+    "main.js": "/json2dashboard/static/js/main.4005ab19.js",
     "static/js/787.31b53edb.chunk.js": "/json2dashboard/static/js/787.31b53edb.chunk.js",
     "static/media/jsoneditor-icons.svg": "/json2dashboard/static/media/jsoneditor-icons.15f2789dd231f36d43a4.svg",
     "index.html": "/json2dashboard/index.html",
-    "main.69f722d2.css.map": "/json2dashboard/static/css/main.69f722d2.css.map",
-    "main.cb08fa15.js.map": "/json2dashboard/static/js/main.cb08fa15.js.map",
+    "main.65197a6f.css.map": "/json2dashboard/static/css/main.65197a6f.css.map",
+    "main.4005ab19.js.map": "/json2dashboard/static/js/main.4005ab19.js.map",
     "787.31b53edb.chunk.js.map": "/json2dashboard/static/js/787.31b53edb.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.69f722d2.css",
-    "static/js/main.cb08fa15.js"
+    "static/css/main.65197a6f.css",
+    "static/js/main.4005ab19.js"
   ]
 }
