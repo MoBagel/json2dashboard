@@ -20,10 +20,11 @@ const TitleWrapper = styled.div`
 `;
 
 const App = () => {
+  const getFromLocalStorage = localStorage.getItem('storeCode') || JSON.stringify(data);
   const [lockSelected, setLockSelected] = useState<boolean>(false);
   const [mode, setMode] = useState<string>('code');
   const [code, setCode] = useState<never>(
-    JSON.parse(JSON.stringify(data), function (key, value) {
+    JSON.parse(getFromLocalStorage, function (key, value) {
       if (typeof value != 'string') return value;
       return value.substring(0, 8) === 'function'
         ? // eslint-disable-next-line no-eval
@@ -33,6 +34,7 @@ const App = () => {
   );
 
   const handleSetEditUpdate = (codeText: string) => {
+    localStorage.setItem('storeCode', codeText);
     const formatValue = JSON.parse(codeText, function (key, value) {
       if (typeof value != 'string') return value;
       return value.substring(0, 8) === 'function' || value.indexOf('=>') > -1
@@ -59,7 +61,7 @@ const App = () => {
     const href = await URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = href;
-    link.download = fileName + '.txt';
+    link.download = fileName + '.json';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
