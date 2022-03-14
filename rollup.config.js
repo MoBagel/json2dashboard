@@ -24,7 +24,6 @@ export default {
       exports: 'named',
     },
   ],
-  external: [/node_modules/],
   plugins: [
     postcss({
       modules: true,
@@ -46,13 +45,7 @@ export default {
     typescript({
       typescript: typescriptEngine,
       include: ['*.js+(|x)', '**/*.js+(|x)'],
-      exclude: [
-        '**/stories',
-        '*.stories.{js+(|x), ts+(|x)}',
-        '**/__test__',
-        '**/*.test.{js+(|x), ts+(|x)}',
-        'node_modules/**',
-      ],
+      exclude: ['**/__test__', '**/*.test.{js+(|x), ts+(|x)}', 'node_modules/**'],
     }),
     commonjs(),
     babel({
