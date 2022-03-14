@@ -6,9 +6,9 @@ import { DownOutlined } from '@ant-design/icons';
 import renders from './Render';
 import Renderer from '../Renderer';
 
-const menu: React.FC<{
+const MenuList: React.FC<{
   onDownload: MouseEventHandler<HTMLDivElement> | undefined;
-}> = ({ onDownload }) => {
+}> = ({ onDownload }): React.ReactElement => {
   return (
     <Menu>
       <Menu.Item>
@@ -40,7 +40,7 @@ const DownloadTable: React.FC<{
     <RenderComp
       {...config.props}
       extra={
-        <Dropdown overlay={menu({ onDownload: handleDownload })}>
+        <Dropdown overlay={<MenuList onDownload={handleDownload} />}>
           <a className="ant-dropdown-link" onClick={handleDownload}>
             Download <DownOutlined />
           </a>

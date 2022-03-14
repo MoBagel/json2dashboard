@@ -16,7 +16,7 @@ const Renderer = (config: {
   variable?: any;
   media?: any;
 }) => {
-  let injectStyles = {};
+  let injectStyles;
   const props = config.props;
   if (props?.style) {
     Object.keys(props.style).forEach((key) => {

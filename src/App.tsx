@@ -1,16 +1,16 @@
-import { useState } from "react";
-import SplitPane, { Pane } from "react-split-pane";
-import styled from "styled-components";
-import { Typography } from "antd";
+import { useState } from 'react';
+import SplitPane, { Pane } from 'react-split-pane';
+import styled from 'styled-components';
+import { Typography } from 'antd';
 
-import { Button, Switch } from "antd";
-import data from "./data";
-import "./App.less";
+import { Button, Switch } from 'antd';
+import data from './data';
+import './App.less';
 
-import ErrorBoundary from "./ErrorBoundary";
+import ErrorBoundary from './ErrorBoundary';
 
-import Dashboard from "./Editor/Dashboard";
-import JSONHandler from "./Editor/JSONHandler";
+import Dashboard from './Editor/Dashboard';
+import JSONHandler from './Editor/JSONHandler';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -20,26 +20,26 @@ const TitleWrapper = styled.div`
 `;
 
 const App = () => {
-  const [lockSelected, setLockSelected] = useState(false);
-  const [mode, setMode] = useState("code");
-  const [code, setCode] = useState(
+  const [lockSelected, setLockSelected] = useState<boolean>(false);
+  const [mode, setMode] = useState<string>('code');
+  const [code, setCode] = useState<never>(
     JSON.parse(JSON.stringify(data), function (key, value) {
-      if (typeof value != "string") return value;
-      return value.substring(0, 8) === "function"
+      if (typeof value != 'string') return value;
+      return value.substring(0, 8) === 'function'
         ? // eslint-disable-next-line no-eval
-          eval("(" + value + ")")
+          eval('(' + value + ')')
         : value;
-    })
+    }),
   );
 
   const handleSetEditUpdate = (codeText: string) => {
     const formatValue = JSON.parse(codeText, function (key, value) {
-      if (typeof value != "string") return value;
-      return value.substring(0, 8) === "function" || value.indexOf("=>") > -1
+      if (typeof value != 'string') return value;
+      return value.substring(0, 8) === 'function' || value.indexOf('=>') > -1
         ? // eslint-disable-next-line no-eval
-          typeof eval("(" + value + ")") === "function"
+          typeof eval('(' + value + ')') === 'function'
           ? // eslint-disable-next-line no-eval
-            eval("(" + value + ")")
+            eval('(' + value + ')')
           : value
         : value;
     });
@@ -47,19 +47,19 @@ const App = () => {
   };
 
   const downloadFile = async () => {
-    const fileName = "file";
+    const fileName = 'file';
     const json = JSON.stringify(
       code,
       function (_, value) {
-        return typeof value === "function" ? value.toString() : value;
+        return typeof value === 'function' ? value.toString() : value;
       },
-      2
+      2,
     );
-    const blob = new Blob([json], { type: "text/plain;charset=utf-8;" });
+    const blob = new Blob([json], { type: 'text/plain;charset=utf-8;' });
     const href = await URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = href;
-    link.download = fileName + ".txt";
+    link.download = fileName + '.txt';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -67,13 +67,13 @@ const App = () => {
 
   return (
     <SplitPane split="vertical" minSize={`50%`} defaultSize={`50%`}>
-      <Pane initialSize="40%" minSize="10%">
+      <Pane>
         <div>
           <TitleWrapper>
             <Typography.Title>Data edit</Typography.Title>
             <div>
               <Typography.Text>Lock Select: </Typography.Text>
-              <Switch value={lockSelected} onChange={setLockSelected} />{" "}
+              <Switch checked={lockSelected} onChange={setLockSelected} />{' '}
               <Button onClick={downloadFile}>Download</Button>
             </div>
           </TitleWrapper>
@@ -85,7 +85,7 @@ const App = () => {
           />
         </div>
       </Pane>
-      <Pane initialSize="60%" minSize="10%">
+      <Pane>
         <div className="App">
           <ErrorBoundary>
             <Dashboard data={code} />
