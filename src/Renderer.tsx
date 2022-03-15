@@ -2,6 +2,7 @@ import React from 'react';
 import renders from './components/Render';
 import DownloadTable from './components/DownloadTable';
 import StyledLayout from './components/StyledLayout';
+import ErrorBoundary from './ErrorBoundary';
 
 import colors from './styles/color';
 
@@ -15,7 +16,12 @@ const Renderer = (config: {
   isDownload?: boolean;
   variable?: any;
   media?: any;
+  apiConfigs: {
+    type: string;
+  };
+  onRequest: (config) => void;
 }) => {
+  const { onRequest } = config;
   let injectStyles;
   const props = config.props;
   if (props?.style) {
@@ -31,11 +37,11 @@ const Renderer = (config: {
   }
   if (config.isDownload) {
     if (config.type === 'Card') {
-      return <DownloadTable config={config} injectStyles={injectStyles} />;
+      return <DownloadTable config={config} injectStyles={injectStyles} onRequest={onRequest} />;
     }
   }
   if (config.type === 'Layout' && config.media) {
-    return <StyledLayout config={config} injectStyles={injectStyles} />;
+    return <StyledLayout config={config} injectStyles={injectStyles} onRequest={onRequest} />;
   }
   let injectProps = {};
   if (config.isColumn) {
@@ -55,7 +61,9 @@ const Renderer = (config: {
         (config.children &&
           config.children
             .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
-            .map((c: any) => <Renderer key={c?.id} {...injectProps} {...c} />)),
+            .map((c: any) => (
+              <Renderer key={c?.id} {...injectProps} {...c} onRequest={onRequest} />
+            ))),
     );
   }
   if (typeof RenderComp !== 'undefined') {
@@ -83,7 +91,9 @@ const Renderer = (config: {
                   variable?: any;
                   media?: any;
                 },
-              ) => <Renderer isColumn {...injectProps} {...record} {...render} />,
+              ) => (
+                <Renderer isColumn {...injectProps} {...record} {...render} onRequest={onRequest} />
+              ),
             };
           }
           return { ...item, isColumn: true };
@@ -91,16 +101,25 @@ const Renderer = (config: {
       };
     }
     return (
-      <RenderComp {...props} {...injectProps} style={{ ...props?.style, ...injectStyles }}>
-        {config.content
-          ? typeof config.content === 'function'
-            ? config.content({ ...config, ...config.variable })
-            : config.content
-          : config.children &&
-            config.children
-              .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
-              .map((c: any) => <Renderer key={c?.id} {...injectProps} {...c} />)}
-      </RenderComp>
+      <ErrorBoundary>
+        <RenderComp
+          {...config}
+          {...props}
+          {...injectProps}
+          style={{ ...props?.style, ...injectStyles }}
+        >
+          {config.content
+            ? typeof config.content === 'function'
+              ? config.content({ ...config, ...config.variable })
+              : config.content
+            : config.children &&
+              config.children
+                .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
+                .map((c: any) => (
+                  <Renderer key={c?.id} {...injectProps} {...c} onRequest={onRequest} />
+                ))}
+        </RenderComp>
+      </ErrorBoundary>
     );
   }
   return null;

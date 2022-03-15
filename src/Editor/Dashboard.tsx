@@ -9,9 +9,17 @@ const Dashboard: React.FC<{
     props: any;
     children: any;
     content?: any;
+    apiConfigs: {
+      url: string;
+      method: string;
+      headers: {
+        never;
+      };
+    };
   };
-}> = ({ data }) => {
-  return <Renderer {...data} />;
+  onRequest: (config) => void;
+}> = ({ data, onRequest }) => {
+  return <Renderer {...data} onRequest={onRequest} />;
 };
 
 export default Dashboard;

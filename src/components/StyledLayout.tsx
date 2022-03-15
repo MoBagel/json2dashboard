@@ -16,7 +16,8 @@ const StyledLayout: React.FC<{
     media?: any;
   };
   injectStyles: HTMLStyleElement;
-}> = ({ config, injectStyles }) => {
+  onRequest: (config) => void;
+}> = ({ config, injectStyles, onRequest }) => {
   const RenderComp = renders(config.type);
   const media = config.media || {};
 
@@ -53,7 +54,7 @@ const StyledLayout: React.FC<{
     config.children &&
       config.children
         .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
-        .map((c: any) => <Renderer key={c?.id} {...c} />),
+        .map((c: any) => <Renderer key={c?.id} {...c} onRequest={onRequest} />),
   );
 };
 

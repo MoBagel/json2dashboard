@@ -27,13 +27,17 @@ const DownloadTable: React.FC<{
     content?: any;
     isColumn?: boolean;
     isDownload?: boolean;
+    apiConfigs: {
+      type: string;
+    };
   };
   injectStyles: HTMLStyleElement;
-}> = ({ config, injectStyles }) => {
+  onRequest: (config) => void;
+}> = ({ config, injectStyles, onRequest = () => {} }) => {
   const RenderComp = renders(config.type);
 
   const handleDownload = () => {
-    console.log('selectedRowKeys selected:');
+    onRequest(config.apiConfigs);
   };
 
   return (
@@ -41,12 +45,13 @@ const DownloadTable: React.FC<{
       {...config.props}
       extra={
         <Dropdown overlay={<MenuList onDownload={handleDownload} />}>
-          <a className="ant-dropdown-link" onClick={handleDownload}>
+          <a className="ant-dropdown-link">
             Download <DownOutlined />
           </a>
         </Dropdown>
       }
       style={{ ...config?.props?.style, ...injectStyles }}
+      onRequest={onRequest}
     >
       {config.content
         ? typeof config.content === 'function'
@@ -56,7 +61,7 @@ const DownloadTable: React.FC<{
           config.children
             .slice()
             .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
-            .map((c: any) => <Renderer key={c?.id} {...c} />)}
+            .map((c: any) => <Renderer key={c?.id} {...c} onRequest={onRequest} />)}
     </RenderComp>
   );
 };

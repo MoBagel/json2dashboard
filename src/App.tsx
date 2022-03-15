@@ -19,19 +19,27 @@ const TitleWrapper = styled.div`
   padding-bottom: 8px;
 `;
 
-const App = () => {
-  const getFromLocalStorage = localStorage.getItem('storeCode') || JSON.stringify(data);
-  const [lockSelected, setLockSelected] = useState<boolean>(false);
-  const [mode, setMode] = useState<string>('code');
-  const [code, setCode] = useState<never>(
-    JSON.parse(getFromLocalStorage, function (key, value) {
+const formatJson = (rawData: string) => {
+  let format = {};
+  try {
+    format = JSON.parse(rawData, function (key, value) {
       if (typeof value != 'string') return value;
       return value.substring(0, 8) === 'function'
         ? // eslint-disable-next-line no-eval
           eval('(' + value + ')')
         : value;
-    }),
-  );
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  return format;
+};
+
+const App = () => {
+  const getFromLocalStorage = localStorage.getItem('storeCode') || JSON.stringify(data);
+  const [lockSelected, setLockSelected] = useState<boolean>(false);
+  const [mode, setMode] = useState<string>('code');
+  const [code, setCode] = useState<never>(formatJson(getFromLocalStorage));
 
   const handleSetEditUpdate = (codeText: string) => {
     localStorage.setItem('storeCode', codeText);
@@ -67,6 +75,10 @@ const App = () => {
     document.body.removeChild(link);
   };
 
+  const handleDownload = (...res) => {
+    console.log(res);
+  };
+
   return (
     <SplitPane split="vertical" minSize={`50%`} defaultSize={`50%`}>
       <Pane>
@@ -90,7 +102,7 @@ const App = () => {
       <Pane>
         <div className="App">
           <ErrorBoundary>
-            <Dashboard data={code} />
+            <Dashboard data={code} onRequest={handleDownload} />
           </ErrorBoundary>
         </div>
       </Pane>

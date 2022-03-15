@@ -45,6 +45,7 @@ import {
   Alert,
 } from 'antd';
 import StatusLabel from './StatusLabel';
+import Link from './Link';
 
 import { Line } from '@ant-design/charts';
 import { Pie, Scatter } from '@ant-design/plots';
@@ -98,6 +99,7 @@ const CompConfig = {
   Tag,
   Timeline,
   Alert,
+  Link,
 };
 
 export default CompConfig;
