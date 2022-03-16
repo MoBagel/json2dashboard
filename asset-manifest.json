@@ -1,16 +1,22 @@
 {
   "files": {
-    "main.css": "/json2dashboard/static/css/main.65197a6f.css",
-    "main.js": "/json2dashboard/static/js/main.27fe248b.js",
+    "main.css": "/json2dashboard/static/css/main.a8608bfb.css",
+    "main.js": "/json2dashboard/static/js/main.9efba247.js",
     "static/js/787.e635ec22.chunk.js": "/json2dashboard/static/js/787.e635ec22.chunk.js",
+    "static/media/NotoSansTC-Bold.otf": "/json2dashboard/static/media/NotoSansTC-Bold.ad1bddadd1f6b41fe4e7.otf",
+    "static/media/NotoSansTC-Medium.otf": "/json2dashboard/static/media/NotoSansTC-Medium.e9b9b665062ef9a13ea6.otf",
+    "static/media/NotoSansTC-Regular.otf": "/json2dashboard/static/media/NotoSansTC-Regular.b018ff7b4ccc245480a4.otf",
+    "static/media/Poppins-Regular.ttf": "/json2dashboard/static/media/Poppins-Regular.8081832fc5cfbf634aa6.ttf",
+    "static/media/Poppins-Medium.ttf": "/json2dashboard/static/media/Poppins-Medium.9e1bb626874ed49aa343.ttf",
+    "static/media/Poppins-Bold.ttf": "/json2dashboard/static/media/Poppins-Bold.404e299be26d78e66794.ttf",
     "static/media/jsoneditor-icons.svg": "/json2dashboard/static/media/jsoneditor-icons.15f2789dd231f36d43a4.svg",
     "index.html": "/json2dashboard/index.html",
-    "main.65197a6f.css.map": "/json2dashboard/static/css/main.65197a6f.css.map",
-    "main.27fe248b.js.map": "/json2dashboard/static/js/main.27fe248b.js.map",
+    "main.a8608bfb.css.map": "/json2dashboard/static/css/main.a8608bfb.css.map",
+    "main.9efba247.js.map": "/json2dashboard/static/js/main.9efba247.js.map",
     "787.e635ec22.chunk.js.map": "/json2dashboard/static/js/787.e635ec22.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.65197a6f.css",
-    "static/js/main.27fe248b.js"
+    "static/css/main.a8608bfb.css",
+    "static/js/main.9efba247.js"
   ]
 }
