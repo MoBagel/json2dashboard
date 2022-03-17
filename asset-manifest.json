@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/json2dashboard/static/css/main.9628d70b.css",
-    "main.js": "/json2dashboard/static/js/main.7fa55344.js",
+    "main.js": "/json2dashboard/static/js/main.43b9a052.js",
     "static/js/787.31b53edb.chunk.js": "/json2dashboard/static/js/787.31b53edb.chunk.js",
     "static/media/NotoSansTC-Bold.otf": "/json2dashboard/static/media/NotoSansTC-Bold.ad1bddadd1f6b41fe4e7.otf",
     "static/media/NotoSansTC-Medium.otf": "/json2dashboard/static/media/NotoSansTC-Medium.e9b9b665062ef9a13ea6.otf",
@@ -12,11 +12,11 @@
     "static/media/jsoneditor-icons.svg": "/json2dashboard/static/media/jsoneditor-icons.15f2789dd231f36d43a4.svg",
     "index.html": "/json2dashboard/index.html",
     "main.9628d70b.css.map": "/json2dashboard/static/css/main.9628d70b.css.map",
-    "main.7fa55344.js.map": "/json2dashboard/static/js/main.7fa55344.js.map",
+    "main.43b9a052.js.map": "/json2dashboard/static/js/main.43b9a052.js.map",
     "787.31b53edb.chunk.js.map": "/json2dashboard/static/js/787.31b53edb.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9628d70b.css",
-    "static/js/main.7fa55344.js"
+    "static/js/main.43b9a052.js"
   ]
 }
