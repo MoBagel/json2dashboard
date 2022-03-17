@@ -1,27 +1,49 @@
 import React from 'react';
-import renders from './components/Render';
-import DownloadTable from './components/DownloadTable';
-import StyledLayout from './components/StyledLayout';
+import renders from './utils/render';
+import { DownloadTable, StyledLayout } from './components';
 import ErrorBoundary from './ErrorBoundary';
-
 import colors from './styles/color';
 
-const Renderer = (config: {
+import renderInside from './utils/renderInside';
+
+export interface ObjValue {
+  props: string;
+  columns: [];
+}
+
+export type JsonProps = {
   type: any;
   id?: string;
-  props: any;
-  children: any;
-  content?: any;
+  props?: Record<string, ObjValue>;
+  children?: [ChildrenJsonProps];
+  content?: string | ((config) => string);
   isColumn?: boolean;
   isDownload?: boolean;
-  variable?: any;
-  media?: any;
-  apiConfigs: {
+  variable?: Record<string, ObjValue>;
+  media?: Record<string, ObjValue>;
+  apiConfigs?: {
+    method?: string;
     type: string;
+    url: string;
+    payload?: [string];
+    query?: [string];
+    dataType?: string;
+    headers?: Record<string, ObjValue>;
+    options?: Record<string, ObjValue>;
   };
-  onRequest: (config) => void;
-}) => {
-  const { onRequest } = config;
+};
+
+export interface ChildrenJsonProps extends JsonProps {
+  order: number;
+}
+
+export interface RenderProps extends JsonProps {
+  onSuccess: (res, configs) => void;
+  onFail: (res, configs) => void;
+}
+
+const Renderer = (config: RenderProps) => {
+  const { onSuccess, onFail } = config;
   let injectStyles;
   const props = config.props;
   if (props?.style) {
@@ -37,11 +59,25 @@ const Renderer = (config: {
   }
   if (config.isDownload) {
     if (config.type === 'Card') {
-      return <DownloadTable config={config} injectStyles={injectStyles} onRequest={onRequest} />;
+      return (
+        <DownloadTable
+          config={config}
+          injectStyles={injectStyles}
+          onSuccess={onSuccess}
+          onFail={onFail}
+        />
+      );
     }
   }
   if (config.type === 'Layout' && config.media) {
-    return <StyledLayout config={config} injectStyles={injectStyles} onRequest={onRequest} />;
+    return (
+      <StyledLayout
+        config={config}
+        injectStyles={injectStyles}
+        onSuccess={onSuccess}
+        onFail={onFail}
+      />
+    );
   }
   let injectProps = {};
   if (config.isColumn) {
@@ -49,28 +85,12 @@ const Renderer = (config: {
   }
 
   const RenderComp = renders(config.type);
-  if (config.type === 'Row' || config.type === 'Col') {
-    return React.createElement(
-      RenderComp,
-      {
-        ...config.props,
-        key: config.id,
-        style: { ...props?.style, ...injectStyles },
-      },
-      config.content ||
-        (config.children &&
-          config.children
-            .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
-            .map((c: any) => (
-              <Renderer key={c?.id} {...injectProps} {...c} onRequest={onRequest} />
-            ))),
-    );
-  }
+
   if (typeof RenderComp !== 'undefined') {
-    if (config.type === 'Table') {
+    if (config.type === 'Table' && props && Array.isArray(props?.columns)) {
       injectProps = {
         ...injectProps,
-        columns: [...config.props.columns].map((item) => {
+        columns: [...props.columns].map((item) => {
           const { render, ...rest } = item;
           if (typeof render === 'function') {
             return { ...rest, render };
@@ -92,7 +112,14 @@ const Renderer = (config: {
                   media?: any;
                 },
               ) => (
-                <Renderer isColumn {...injectProps} {...record} {...render} onRequest={onRequest} />
+                <Renderer
+                  isColumn
+                  {...injectProps}
+                  {...record}
+                  {...render}
+                  onSuccess={onSuccess}
+                  onFail={onFail}
+                />
               ),
             };
           }
@@ -103,21 +130,25 @@ const Renderer = (config: {
     return (
       <ErrorBoundary>
         <RenderComp
-          {...config}
           {...props}
           {...injectProps}
           style={{ ...props?.style, ...injectStyles }}
+          isColumn={config?.isColumn}
+          isDownload={config?.isDownload}
+          variable={config?.variable}
+          media={config?.media}
+          apiConfigs={config?.apiConfigs}
         >
-          {config.content
-            ? typeof config.content === 'function'
-              ? config.content({ ...config, ...config.variable })
-              : config.content
-            : config.children &&
-              config.children
-                .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
-                .map((c: any) => (
-                  <Renderer key={c?.id} {...injectProps} {...c} onRequest={onRequest} />
-                ))}
+          {renderInside({
+            config: {
+              variable: config?.variable,
+              children: config?.children,
+              content: config?.content,
+            },
+            injectProps,
+            onSuccess,
+            onFail,
+          })}
         </RenderComp>
       </ErrorBoundary>
     );

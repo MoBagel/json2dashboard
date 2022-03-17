@@ -53,6 +53,8 @@ export default {
         '**/*.test.{js+(|x), ts+(|x)}',
         'node_modules/**',
       ],
+      rollupCommonJSResolveHack: false,
+      clean: true,
     }),
     commonjs(),
     babel({

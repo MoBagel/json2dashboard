@@ -1,23 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import renders from './Render';
-import Renderer from '../Renderer';
+import renders from '../utils/render';
+
+import type { RenderProps } from '../Renderer';
+
+import RenderInside from '../utils/renderInside';
 
 const StyledLayout: React.FC<{
-  config: {
-    type: any;
-    id?: string;
-    props: any;
-    children: any;
-    content?: any;
-    isColumn?: boolean;
-    isDownload?: boolean;
-    media?: any;
-  };
+  config: RenderProps;
   injectStyles: HTMLStyleElement;
-  onRequest: (config) => void;
-}> = ({ config, injectStyles, onRequest }) => {
+  onSuccess: (res, configs) => void;
+  onFail: (res, configs) => void;
+}> = ({ config, injectStyles, onSuccess, onFail }) => {
   const RenderComp = renders(config.type);
   const media = config.media || {};
 
@@ -51,10 +46,7 @@ const StyledLayout: React.FC<{
       ...config.props,
       style: { ...config?.props?.style, ...injectStyles },
     },
-    config.children &&
-      config.children
-        .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
-        .map((c: any) => <Renderer key={c?.id} {...c} onRequest={onRequest} />),
+    RenderInside({ config, onSuccess, onFail }),
   );
 };
 

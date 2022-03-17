@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Renderer from 'Renderer';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-export default Renderer;
 
 ReactDOM.render(
   <React.StrictMode>

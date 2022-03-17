@@ -10,27 +10,6 @@ const data = {
   children: [
     {
       type: 'Row',
-      id: 'UHhFANoFza',
-      props: {
-        justify: 'end',
-        align: 'middle',
-        style: {
-          paddingBottom: '24px',
-        },
-      },
-      children: [
-        {
-          type: 'Typography.Text',
-          id: 'ATlmPXHlNk',
-          variable: {
-            date: '2022-02-22 02:22',
-          },
-          content: 'function (_ref) { let { date } = _ref; return `Last updated:  ${date}`; }',
-        },
-      ],
-    },
-    {
-      type: 'Row',
       id: 'ik8HV0Re3',
       props: {
         gutter: 16,
@@ -77,7 +56,7 @@ const data = {
                       type: 'Typography.Title',
                       id: 'RclUrYLPJU',
                       variable: {
-                        percentage: '7.6',
+                        percentage: 'eda@overview@rp_ratio@value',
                         _comment: 'percent repeat buyers',
                       },
                       content:
@@ -131,7 +110,7 @@ const data = {
                       type: 'Typography.Title',
                       id: '6U7DiWipm5',
                       variable: {
-                        days: '3.4',
+                        days: 'eda@overview@rp_interval@value',
                         _comment: 'average repurchase interval',
                       },
                       content: 'function (_ref) { let { days } = _ref; return `${days} days`; }',
@@ -184,21 +163,16 @@ const data = {
                       type: 'Typography.Title',
                       id: 'KM0uodkMeb',
                       variable: {
-                        average: 4922,
+                        average: 'eda@overview@aov@value',
                         _comment: 'AOV(total)',
                       },
                       content:
-                        'function (_ref) { let { average } = _ref; return `$ ${Number(average).toLocaleString()}`; }',
+                        'function (_ref) { let { average } = _ref; return `$ ${(Number(average)||"-").toLocaleString()}`; }',
                     },
                     {
                       type: 'Typography.Text',
                       id: 'FzVbU_Kuw2',
-                      content: 'This is the average value per orderumm rgregieor',
-                    },
-                    {
-                      type: 'Typography.Text',
-                      id: 'mA8ihvaKuq',
-                      content: '+2.39%',
+                      content: 'AOV is calculated by diving total order value by total customers',
                     },
                   ],
                 },
@@ -243,20 +217,17 @@ const data = {
                       type: 'Typography.Title',
                       id: 'QbJJrY8XOm',
                       variable: {
-                        revenue: 304120,
+                        ltv: 'eda@overview@clv@value',
+                        _comment: 'average LTV',
                       },
                       content:
-                        'function (_ref) { let { revenue } = _ref; return `$ ${Number(revenue).toLocaleString()}`; }',
+                        'function (_ref) { let { ltv } = _ref; return `$ ${(Number(ltv)|| "-").toLocaleString()}`; }',
                     },
                     {
                       type: 'Typography.Text',
                       id: '7GrDA3xyLC',
-                      content: 'Compared to last month',
-                    },
-                    {
-                      type: 'Typography.Text',
-                      id: 'q4AWTACdSU',
-                      content: '+2.39%',
+                      content:
+                        'Average amount of revenue generated over entire customer-seller relationship',
                     },
                   ],
                 },
@@ -279,6 +250,15 @@ const data = {
           type: 'Typography.Title',
           id: 'pUfqZgpH93',
           content: 'Member Analysis',
+        },
+        {
+          type: 'Link',
+          id: 'pUfqZgpH92',
+          content: '(view tips)',
+          props: {
+            href: 'https://www.8ndpoint.com/segment-tips',
+            target: '_blank',
+          },
         },
       ],
     },
@@ -304,6 +284,13 @@ const data = {
               isDownload: true,
               apiConfigs: {
                 type: 'customer_segment',
+                url: '/job/download',
+                query: ['job_id', 'dag_run_id', 'file_name'],
+              },
+              variable: {
+                job_id: 'dag_params@job_id@value',
+                dag_run_id: 'dag_params@dag_run_id@value',
+                file_name: 'customer_segment_list.csv',
               },
               props: {
                 title: 'Customer Segment',
@@ -377,11 +364,10 @@ const data = {
                         title: 'Customers',
                         dataIndex: 'customers',
                         key: 'customers',
-                        id: '8AHjSFnbsr',
                         render: {
                           type: 'Typography.Text',
                           content:
-                            'function ({ customers }) { return Number(customers).toLocaleString()}',
+                            "function ({ customers }) { return (Number(customers)||'-').toLocaleString()}",
                         },
                       },
                       {
@@ -391,7 +377,7 @@ const data = {
                         render: {
                           type: 'Typography.Text',
                           content:
-                            'function ({ orders }) { return Number(orders).toLocaleString()}',
+                            "function ({ orders }) { return (Number(orders)||'-').toLocaleString()}",
                         },
                       },
                       {
@@ -401,7 +387,7 @@ const data = {
                         render: {
                           type: 'Typography.Text',
                           content:
-                            'function ({ aov }) { return `$ ${Number(aov).toLocaleString()}`}',
+                            "function ({ aov }) { return `$ ${(Number(aov)||'-').toLocaleString()}`}",
                         },
                       },
                       {
@@ -411,51 +397,11 @@ const data = {
                         render: {
                           type: 'Typography.Text',
                           content:
-                            'function ({ revenue }) { return `$ ${Number(revenue).toLocaleString()}`}',
+                            "function ({ revenue }) { return `$ ${(Number(revenue)||'-').toLocaleString()}`}",
                         },
                       },
                     ],
-                    dataSource: [
-                      {
-                        key: '1',
-                        name: 'John Brown',
-                        age: 32,
-                        address: 'New York',
-                        tag: 'New',
-                        description: 'Made first purchase within past month',
-                        customers: 1304,
-                        orders: 120,
-                        aov: '120103',
-                        revenue: '49',
-                        statusColor: 'navy20',
-                      },
-                      {
-                        key: '2',
-                        name: 'Lebron James',
-                        age: 32,
-                        address: 'Japan',
-                        tag: 'Active',
-                        description: 'Made 2+ purchases within past month',
-                        customers: 1304,
-                        orders: 120,
-                        aov: '120103',
-                        revenue: '49',
-                        statusColor: 'aqua20',
-                      },
-                      {
-                        key: '3',
-                        name: 'James Brown',
-                        age: 32,
-                        address: 'Tapei',
-                        tag: 'Sleepers',
-                        description: 'Have not made any purchases within past 60 days',
-                        customers: 1304,
-                        orders: 120,
-                        aov: '120103',
-                        revenue: '49',
-                        statusColor: 'yellow60',
-                      },
-                    ],
+                    dataSource: 'eda@customer_segment@json',
                   },
                 },
               ],
@@ -485,7 +431,7 @@ const data = {
               type: 'Card',
               id: 'ZRL9wt7Xy',
               props: {
-                title: 'Member Analysis',
+                title: 'Customer Segments by Percentage',
                 style: {
                   textAlign: 'left',
                   height: '100%',
@@ -498,33 +444,7 @@ const data = {
                   id: '5LN8Phgd5w',
                   props: {
                     appendPadding: 10,
-                    data: [
-                      {
-                        type: 'New',
-                        value: 27,
-                        count: 151,
-                      },
-                      {
-                        type: 'Potential for Loyal',
-                        value: 25,
-                        count: 151,
-                      },
-                      {
-                        type: 'Loyal',
-                        value: 18,
-                        count: 151,
-                      },
-                      {
-                        type: 'Sleepers',
-                        value: 15,
-                        count: 151,
-                      },
-                      {
-                        type: 'Lost',
-                        value: 10,
-                        count: 15111,
-                      },
-                    ],
+                    data: 'eda@customer_segments_by_percentage@json',
                     angleField: 'value',
                     colorField: 'type',
                     color: ['#99e9cc', '#9ce4fb', '#a68ada', '#fabbba', '#d8d8d8'],
@@ -550,7 +470,7 @@ const data = {
                           textOverflow: 'ellipsis',
                         },
                         customHtml:
-                          "function (container, view, datum, data) {\n   const { width } = container.getBoundingClientRect();\n    const text = datum ? `${datum.value}` : `${data.reduce((r, d) => r + d.count, 0)}`;\n    return `<div><span style='font-weight: 100; font-size: 16px;'>Total Members</span>\n${parseInt(text).toLocaleString()}</div>`;\n\n  }",
+                          "function (container, view, datum, data) {\n  var text = datum ? `${datum.value}` : `${data.reduce((r, d) => r + d.count, 0)}`;\n    return `<div><span style='font-weight: 100; font-size: 16px;'>Total Members</span>\n${parseInt(text).toLocaleString()}</div>`;\n\n  }",
                       },
                     },
                   },
@@ -594,6 +514,11 @@ const data = {
                       type: 'Typography.Text',
                       id: 'DNzF6rI5qR',
                       content: 'Loyalty Gain',
+                      props: {
+                        style: {
+                          fontWeight: '700',
+                        },
+                      },
                     },
                     {
                       type: 'div',
@@ -603,11 +528,12 @@ const data = {
                           type: 'Typography.Text',
                           id: '8DHjnFnbeX',
                           variable: {
-                            client: 40,
-                            revenue: 2338,
+                            _comment: 'Loyal prediction',
+                            client: 'model@Loyal@increase@value',
+                            revenue: 'model@Loyal@estimated_revenue@value',
                           },
                           content:
-                            'function (_ref4) {\n    let {\n      client,\n      revenue\n    } = _ref4;\n    return `An increase in ${Number(client).toLocaleString()} clients becoming Loyal customers, with an estimated revenue gain of $${Number(revenue).toLocaleString()} (`;\n  }',
+                            'function (_ref4) {\n    let {\n      client,\n      revenue\n    } = _ref4;\n    return `An increase in ${(Number(client)||"-").toLocaleString()} clients becoming Loyal customers, with an estimated revenue gain of $${(Number(revenue)||"-").toLocaleString()} (`;\n  }',
                         },
                         {
                           type: 'Typography.Text',
@@ -618,6 +544,13 @@ const data = {
                               isDownload: true,
                               apiConfigs: {
                                 type: 'loyalty_gain',
+                                url: '/job/download',
+                                query: ['job_id', 'dag_run_id', 'file_name'],
+                              },
+                              variable: {
+                                job_id: 'dag_params@job_id@value',
+                                dag_run_id: 'dag_params@dag_run_id@value',
+                                file_name: 'Loyal_list.csv',
                               },
                               content: '🔒 download list',
                             },
@@ -634,7 +567,12 @@ const data = {
                     {
                       type: 'Typography.Text',
                       id: 'T_oEknq9I1',
-                      content: 'Sleeper Alert',
+                      content: 'Sleeper (Churn) Alert',
+                      props: {
+                        style: {
+                          fontWeight: '700',
+                        },
+                      },
                     },
                     {
                       type: 'div',
@@ -644,11 +582,12 @@ const data = {
                           type: 'Typography.Text',
                           id: 'tnGM9VYGCd',
                           variable: {
-                            client: 430,
-                            revenue: 234338,
+                            _comment: 'Sleeper (churn) alert',
+                            client: 'model@Sleepers@increase@value',
+                            revenue: 'model@Sleepers@estimated_revenue@value',
                           },
                           content:
-                            'function (_ref5) {\n    let {\n      client,\n      revenue\n    } = _ref5;\n    return `An increase in ${Number(client).toLocaleString()} clients becoming Sleepers, with an estimated revenue loss of $${Number(revenue).toLocaleString()} (`;\n  }',
+                            'function (_ref5) {\n    let {\n      client,\n      revenue\n    } = _ref5;\n    return `An increase in ${(Number(client)||"-").toLocaleString()} clients becoming Sleepers, with an estimated revenue loss of $${(Number(revenue)||"-").toLocaleString()} (`;\n  }',
                         },
                         {
                           type: 'Typography.Text',
@@ -659,6 +598,13 @@ const data = {
                               isDownload: true,
                               apiConfigs: {
                                 type: 'sleeper_alert',
+                                url: '/job/download',
+                                query: ['job_id', 'dag_run_id', 'file_name'],
+                              },
+                              variable: {
+                                job_id: 'dag_params@job_id@value',
+                                dag_run_id: 'dag_params@dag_run_id@value',
+                                file_name: 'Sleepers_list.csv',
                               },
                               content: '🔒 download list',
                             },
@@ -716,7 +662,7 @@ const data = {
               type: 'Card',
               id: 'kStNkpGrNu',
               props: {
-                title: 'Product Ranking',
+                title: 'Monthly Top 30 Product Ranking',
                 style: {
                   textAlign: 'left',
                   height: '100%',
@@ -731,84 +677,38 @@ const data = {
                     pagination: true,
                     columns: [
                       {
-                        title: 'Customers',
-                        dataIndex: 'customers',
-                        key: 'customers',
-                        render: {
-                          type: 'Typography.Text',
-                          content:
-                            'function ({ customers }) { return Number(customers).toLocaleString()}',
-                        },
+                        title: 'Rank',
+                        dataIndex: 'rank',
+                        key: 'rank',
                       },
                       {
-                        title: 'Orders',
-                        dataIndex: 'orders',
-                        key: 'orders',
-                        render: {
-                          type: 'Typography.Text',
-                          content:
-                            'function ({ orders }) { return Number(orders).toLocaleString()}',
-                        },
+                        title: 'Product Name',
+                        dataIndex: 'product name',
+                        key: 'product name',
                       },
                       {
-                        title: 'AOV',
-                        dataIndex: 'aov',
-                        key: 'aov',
-                        render: {
-                          type: 'Typography.Text',
-                          content:
-                            'function ({ aov }) { return `$ ` + Number(aov).toLocaleString()}',
-                        },
-                      },
-                      {
-                        title: 'Revenue',
+                        title: 'Revenue($)',
                         dataIndex: 'revenue',
                         key: 'revenue',
                         render: {
                           type: 'Typography.Text',
                           content:
-                            'function ({ revenue }) { return `$ ` + Number(revenue).toLocaleString()}',
+                            "function ({ revenue }) { return `$ ` + (Number(revenue)||'-').toLocaleString()}",
                         },
                       },
-                    ],
-                    dataSource: [
                       {
-                        key: '1',
-                        name: 'John Brown',
-                        age: 32,
-                        address: 'New York',
-                        tag: 'New',
-                        description: 'Made first purchase within past month',
-                        customers: '1304',
-                        orders: 120,
-                        aov: '120103',
-                        revenue: '49',
+                        title: 'Percent Revenue(%)',
+                        dataIndex: 'percent revenue',
+                        key: 'percent revenue',
                       },
                       {
-                        key: '2',
-                        name: 'Lebron James',
-                        age: 32,
-                        address: 'Japan',
-                        tag: 'Active',
-                        description: 'Made 2+ purchases within past month',
-                        customers: '1304',
-                        orders: 120,
-                        aov: '120103',
-                        revenue: '49',
-                      },
-                      {
-                        key: '3',
-                        name: 'James Brown',
-                        age: 32,
-                        address: 'Tapei',
-                        tag: 'Sleepers',
-                        description: 'Have not made any purchases within past 60 days',
-                        customers: '1304',
-                        orders: 120,
-                        aov: '120103',
-                        revenue: '49',
+                        title: 'Rank Change',
+                        dataIndex: 'rank change',
+                        key: 'rank change',
                       },
                     ],
+                    dataSource: 'eda@product_ranking@json',
+                    _comment: 'product ranking',
                   },
                 },
               ],
@@ -826,7 +726,7 @@ const data = {
               type: 'Card',
               id: 'mjvg6na0Nw',
               props: {
-                title: 'Product Insights',
+                title: 'Product Insights Chart Description',
                 style: {
                   height: '100%',
                   textAlign: 'left',
@@ -843,23 +743,68 @@ const data = {
                   children: [
                     {
                       type: 'Typography.Text',
-                      id: 'fEmUQp6Z9',
-                      content: 'I am some text that explains the chart below',
+                      id: '4Ioe4Tb4GA',
+                      content: 'Quadrant A (top left)',
+                      props: {
+                        style: {
+                          fontWeight: '700',
+                        },
+                      },
                     },
                     {
                       type: 'Typography.Text',
                       id: '4Ioe4Tb4GA',
-                      content: 'Catgeory 1: I am some description',
+                      content:
+                        'These products have high prices but lower % of repeat buyers. We suggest running discount campaigns to boost sales.',
+                    },
+                    {
+                      type: 'Typography.Text',
+                      id: '4Ioe4Tb4GA',
+                      content: 'Quadrant B (top right)',
+                      props: {
+                        style: {
+                          fontWeight: '700',
+                        },
+                      },
                     },
                     {
                       type: 'Typography.Text',
                       id: 'dVGw0AClpp',
-                      content: 'Catgeory 2: I am some description',
+                      content:
+                        'These products are your top performers! With high unit prices and high % of repeat buyers. Run campaigns to highlight these all stars.',
+                    },
+                    {
+                      type: 'Typography.Text',
+                      id: '4Ioe4Tb4GA',
+                      content: 'Quadrant C (bottom right)',
+                      props: {
+                        style: {
+                          fontWeight: '700',
+                        },
+                      },
                     },
                     {
                       type: 'Typography.Text',
                       id: 'OOIcn27SSZ',
-                      content: 'Catgeory 3: I am some description',
+                      content:
+                        'These products have high % of repeat buyers but lower unit prices. Consider pairing these products with poorer performers as a bundle to help improve overall performance.',
+                    },
+                    {
+                      type: 'Typography.Text',
+                      id: '4Ioe4Tb4GA',
+                      content: 'Quadrant D (bottom left)',
+                      props: {
+                        style: {
+                          fontWeight: '700',
+                          display: 'inline',
+                        },
+                      },
+                    },
+                    {
+                      type: 'Typography.Text',
+                      id: 'OOIcn27SSZ',
+                      content:
+                        'These products might be new or need a little boost. Evaluate your marketing strategy increase exposure.',
                     },
                   ],
                 },
@@ -902,57 +847,12 @@ const data = {
                   props: {
                     appendPadding: 30,
                     autoFit: true,
-                    data: [
-                      {
-                        iso3: 'ARE',
-                        'change in female rate': -0.7,
-                        'change in male rate': 3.3000000000000043,
-                        female_2000: 1.9,
-                        male_2000: 34.3,
-                        female_2015: 1.2,
-                        male_2015: 37.6,
-                        income: 'High income',
-                        pop: 9269612,
-                        EN: 'United Arab Emirates',
-                        DE: 'Vereinigte Arabische Emirate',
-                        FR: 'Émirats arabes unis',
-                        IT: 'Emirati Arabi Uniti',
-                        ES: 'Emiratos Árabes Unidos',
-                        PT: 'Emirados Árabes Unidos',
-                        RU: 'Объединенные Арабские Эмираты',
-                        ZH: '阿拉伯联合酋长国',
-                        JA: 'アラブ首長国連邦',
-                        AR: 'الإمارات العربية المتحدة',
-                        productCategory: 'Asia',
-                      },
-                      {
-                        iso3: 'ZWE',
-                        'change in female rate': -1.2000000000000002,
-                        'change in male rate': -1.7999999999999972,
-                        female_2000: 2.6,
-                        male_2000: 29.4,
-                        female_2015: 1.4,
-                        male_2015: 27.6,
-                        income: 'Low income',
-                        pop: 16150362,
-                        EN: 'Zimbabwe',
-                        DE: 'Zimbabwe',
-                        FR: 'Zimbabwe',
-                        IT: 'Zimbabwe',
-                        ES: 'Zimbabue',
-                        PT: 'Zimbábue',
-                        RU: 'Зимбабве',
-                        ZH: '津巴布韦',
-                        JA: 'ジンバブエ',
-                        AR: 'زيمبابوي',
-                        productCategory: 'Africa',
-                      },
-                    ],
-                    xField: 'change in female rate',
-                    yField: 'change in male rate',
-                    sizeField: 'pop',
-                    colorField: 'productCategory',
-                    color: ['#ffd500', '#82cab2', '#193442', '#d18768', '#7e827a'],
+                    data: 'eda@product_insight_chart@data@json',
+                    xField: '% Returning Customers',
+                    yField: 'AOV',
+                    sizeField: 'Total Customers',
+                    colorField: 'Quadrant',
+                    color: ['#ffd500', '#82cab2', '#193442', '#d18768'],
                     size: [4, 30],
                     shape: 'circle',
                     pointStyle: {
@@ -960,8 +860,8 @@ const data = {
                       stroke: '#bbb',
                     },
                     xAxis: {
-                      min: -25,
-                      max: 5,
+                      min: 0,
+                      max: 100,
                       grid: {
                         line: {
                           style: {
@@ -983,20 +883,20 @@ const data = {
                       },
                     },
                     quadrant: {
-                      xBaseline: 0,
-                      yBaseline: 0,
+                      xBaseline: 'eda@product_insight_chart@mean_rp_ratio@value',
+                      yBaseline: 'eda@product_insight_chart@mean_aov@value',
                       labels: [
                         {
-                          content: 'Male decrease,\nfemale increase',
+                          content: 'Quadrant B',
                         },
                         {
-                          content: 'Female decrease,\nmale increase',
+                          content: 'Quadrant A',
                         },
                         {
-                          content: 'Female & male decrease',
+                          content: 'Quadrant C',
                         },
                         {
-                          content: 'Female &\n male increase',
+                          content: 'Quadrant D',
                         },
                       ],
                     },

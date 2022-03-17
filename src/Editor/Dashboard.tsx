@@ -1,25 +1,14 @@
 import React from 'react';
 
+import type { RenderProps } from '../Renderer';
 import Renderer from '../Renderer';
 
 const Dashboard: React.FC<{
-  data: {
-    type: any;
-    id?: string;
-    props: any;
-    children: any;
-    content?: any;
-    apiConfigs: {
-      url: string;
-      method: string;
-      headers: {
-        never;
-      };
-    };
-  };
-  onRequest: (config) => void;
-}> = ({ data, onRequest }) => {
-  return <Renderer {...data} onRequest={onRequest} />;
+  data: RenderProps;
+  onSuccess: (res, configs) => void;
+  onFail: (res, configs) => void;
+}> = ({ data, onSuccess, onFail }) => {
+  return <Renderer {...data} onSuccess={onSuccess} onFail={onFail} />;
 };
 
 export default Dashboard;

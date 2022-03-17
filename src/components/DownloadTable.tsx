@@ -2,9 +2,13 @@ import type { MouseEventHandler } from 'react';
 import React from 'react';
 import { Menu, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import queryString from 'query-string';
 
-import renders from './Render';
-import Renderer from '../Renderer';
+import renders from '../utils/render';
+
+import type { RenderProps } from '../Renderer';
+
+import RenderInside from '../utils/renderInside';
 
 const MenuList: React.FC<{
   onDownload: MouseEventHandler<HTMLDivElement> | undefined;
@@ -19,49 +23,78 @@ const MenuList: React.FC<{
 };
 
 const DownloadTable: React.FC<{
-  config: {
-    type: any;
-    id?: string;
-    props: any;
-    children: any;
-    content?: any;
-    isColumn?: boolean;
-    isDownload?: boolean;
-    apiConfigs: {
-      type: string;
-    };
-  };
+  config: RenderProps;
   injectStyles: HTMLStyleElement;
-  onRequest: (config) => void;
-}> = ({ config, injectStyles, onRequest = () => {} }) => {
+  onSuccess: (res, configs) => void;
+  onFail: (res, configs) => void;
+}> = ({ config, injectStyles, onSuccess = () => {}, onFail = () => {} }) => {
   const RenderComp = renders(config.type);
 
-  const handleDownload = () => {
-    onRequest(config.apiConfigs);
+  const handleFetch = () => {
+    console.log(config);
+    const { apiConfigs, variable } = config;
+    if (apiConfigs?.url) {
+      const body =
+        apiConfigs?.payload &&
+        apiConfigs?.payload.reduce((obj, selectKey) => {
+          if (variable && variable[selectKey]) {
+            // eslint-disable-next-line no-param-reassign
+            obj = { ...obj, [selectKey]: variable[selectKey] };
+          }
+          return obj;
+        }, {});
+
+      const querys =
+        (apiConfigs?.query &&
+          apiConfigs?.query.reduce((obj, selectKey) => {
+            if (variable && variable[selectKey]) {
+              // eslint-disable-next-line no-param-reassign
+              obj = { ...obj, [selectKey]: variable[selectKey] };
+            }
+            return obj;
+          }, {})) ||
+        {};
+
+      const queryStr = Object.keys(querys).length ? `?${queryString.stringify(querys)}` : '';
+
+      const payload = JSON.stringify(body);
+      return fetch(apiConfigs.url + queryStr, {
+        method: apiConfigs?.method || 'GET',
+        headers: new Headers({
+          'content-type': 'application/json',
+          ...apiConfigs?.headers,
+        }),
+        credentials: 'include',
+        body: payload,
+        ...apiConfigs?.options,
+      })
+        .then((res) => {
+          if (apiConfigs.type === 'file') {
+            return res;
+          }
+          return res.json();
+        })
+        .then((res) => onSuccess(res, { ...apiConfigs, variable }))
+        .catch((err) => onFail(err, { ...apiConfigs, variable }));
+    }
+    return null;
   };
 
   return (
     <RenderComp
       {...config.props}
       extra={
-        <Dropdown overlay={<MenuList onDownload={handleDownload} />}>
+        <Dropdown overlay={<MenuList onDownload={handleFetch} />}>
           <a className="ant-dropdown-link">
             Download <DownOutlined />
           </a>
         </Dropdown>
       }
       style={{ ...config?.props?.style, ...injectStyles }}
-      onRequest={onRequest}
+      onSuccess={onSuccess}
+      onFail={onFail}
     >
-      {config.content
-        ? typeof config.content === 'function'
-          ? config.content({ ...config })
-          : config.content
-        : config.children &&
-          config.children
-            .slice()
-            .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
-            .map((c: any) => <Renderer key={c?.id} {...c} onRequest={onRequest} />)}
+      {RenderInside({ config, onSuccess, onFail })}
     </RenderComp>
   );
 };

@@ -1,29 +1,67 @@
 import React from 'react';
 import styled from 'styled-components';
+import queryString from 'query-string';
 
-import Renderer from '../Renderer';
+import type { RenderProps } from '../Renderer';
 
 const StyledLink = styled.a`
   ${(props) => props.styles};
 `;
 
-const Link: React.FC<{
-  type: any;
-  id?: string;
-  props: any;
-  children: any;
-  content?: any;
-  isDownload?: boolean;
-  apiConfigs: {
-    type: string;
-  };
-  style: HTMLStyleElement;
+interface LinkProps extends RenderProps {
   injectStyles: HTMLStyleElement;
-  onRequest: (config) => void;
-}> = (props) => {
-  const { apiConfigs, content, injectStyles, onRequest, children, style } = props;
+  style: HTMLStyleElement;
+}
+
+const Link: React.FC<LinkProps> = (props) => {
+  const { apiConfigs, injectStyles, onSuccess, onFail, style, variable, children } = props;
+
   const handleFetch = () => {
-    onRequest(apiConfigs);
+    if (apiConfigs?.url) {
+      const body =
+        apiConfigs?.payload &&
+        apiConfigs?.payload.reduce((obj, selectKey) => {
+          if (variable && variable[selectKey]) {
+            // eslint-disable-next-line no-param-reassign
+            obj = { ...obj, [selectKey]: variable[selectKey] };
+          }
+          return obj;
+        }, {});
+
+      const querys =
+        (apiConfigs?.query &&
+          apiConfigs?.query.reduce((obj, selectKey) => {
+            if (variable && variable[selectKey]) {
+              // eslint-disable-next-line no-param-reassign
+              obj = { ...obj, [selectKey]: variable[selectKey] };
+            }
+            return obj;
+          }, {})) ||
+        {};
+
+      const queryStr = Object.keys(querys).length ? `?${queryString.stringify(querys)}` : '';
+
+      const payload = JSON.stringify(body);
+      return fetch(apiConfigs.url + queryStr, {
+        method: apiConfigs?.method || 'GET',
+        headers: new Headers({
+          'content-type': 'application/json',
+          ...apiConfigs?.headers,
+        }),
+        credentials: 'include',
+        body: payload,
+        ...apiConfigs?.options,
+      })
+        .then((res) => {
+          if (apiConfigs.type === 'file') {
+            return res;
+          }
+          return res.json();
+        })
+        .then((res) => onSuccess(res, { ...apiConfigs, variable }))
+        .catch((err) => onFail(err, { ...apiConfigs, variable }));
+    }
+    return null;
   };
   return (
     <StyledLink
@@ -31,16 +69,7 @@ const Link: React.FC<{
       styles={{ ...style, ...injectStyles }}
       onClick={apiConfigs?.type ? handleFetch : () => {}}
     >
-      {content
-        ? typeof content === 'function'
-          ? content({ ...props })
-          : content
-        : Array.isArray(children)
-        ? children
-            .slice()
-            .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
-            .map((c: any) => <Renderer key={c?.id} {...c} onRequest={onRequest} />)
-        : children}
+      {children}
     </StyledLink>
   );
 };

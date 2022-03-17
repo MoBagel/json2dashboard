@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import colors from '../styles/color';
 
+import type { RenderProps } from '../Renderer';
+
 const Label = styled.div`
   width: 13px;
   height: 13px;
@@ -10,13 +12,12 @@ const Label = styled.div`
   background: ${(props) => props.bgColor || '#eee'};
 `;
 
-const StatusLabel: React.FC<{
+interface StatusLabelProps extends RenderProps {
   statusColor: string;
-  props: {
-    statusColor: string;
-  };
-}> = ({ props, ...restProps }) => {
-  return <Label bgColor={colors[restProps?.statusColor]} {...props} />;
+}
+
+const StatusLabel: React.FC<StatusLabelProps> = ({ props, statusColor }) => {
+  return <Label bgColor={colors[statusColor]} {...props} />;
 };
 
 export default StatusLabel;
