@@ -52,6 +52,7 @@ export default {
         '**/__test__',
         '**/*.test.{js+(|x), ts+(|x)}',
         'node_modules/**',
+        '**/Editor'
       ],
       rollupCommonJSResolveHack: false,
       clean: true,

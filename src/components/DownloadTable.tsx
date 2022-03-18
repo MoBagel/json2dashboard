@@ -31,7 +31,6 @@ const DownloadTable: React.FC<{
   const RenderComp = renders(config.type);
 
   const handleFetch = () => {
-    console.log(config);
     const { apiConfigs, variable } = config;
     if (apiConfigs?.url) {
       const body =

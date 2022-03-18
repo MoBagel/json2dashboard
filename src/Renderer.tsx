@@ -138,13 +138,11 @@ const Renderer = (config: RenderProps) => {
           variable={config?.variable}
           media={config?.media}
           apiConfigs={config?.apiConfigs}
+          onSuccess={onSuccess}
+          onFail={onFail}
         >
           {renderInside({
-            config: {
-              variable: config?.variable,
-              children: config?.children,
-              content: config?.content,
-            },
+            config,
             injectProps,
             onSuccess,
             onFail,

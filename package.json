@@ -1,6 +1,6 @@
 {
   "name": "json2dashboard",
-  "version": "0.0.1-beta-3",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/Renderer.js",
   "module": "dist/Renderer.es.js",

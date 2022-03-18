@@ -249,7 +249,7 @@ const data = {
         {
           type: 'Typography.Title',
           id: 'pUfqZgpH93',
-          content: 'Member Analysis',
+          content: 'Customer Analysis',
         },
         {
           type: 'Link',
@@ -450,6 +450,11 @@ const data = {
                     color: ['#99e9cc', '#9ce4fb', '#a68ada', '#fabbba', '#d8d8d8'],
                     radius: 0.8,
                     innerRadius: 0.64,
+                    tooltip: {
+                      fields: ['count'],
+                      showTitle: 'true',
+                      title: 'type',
+                    },
                     label: {
                       type: 'outer',
                       offset: '50%',
@@ -470,7 +475,7 @@ const data = {
                           textOverflow: 'ellipsis',
                         },
                         customHtml:
-                          "function (container, view, datum, data) {\n  var text = datum ? `${datum.value}` : `${data.reduce((r, d) => r + d.count, 0)}`;\n    return `<div><span style='font-weight: 100; font-size: 16px;'>Total Members</span>\n${parseInt(text).toLocaleString()}</div>`;\n\n  }",
+                          "function (container, view, datum, data) {\n  var text = datum ? `${datum.value}` : `${data.reduce((r, d) => r + d.count, 0)}`;\n    return `<div><span style='font-weight: 100; font-size: 16px;'>Total Customers</span>\n${parseInt(text).toLocaleString()}</div>`;\n\n  }",
                       },
                     },
                   },
@@ -662,7 +667,7 @@ const data = {
               type: 'Card',
               id: 'kStNkpGrNu',
               props: {
-                title: 'Monthly Top 30 Product Ranking',
+                title: 'Top 30 Product Ranking (monthly)',
                 style: {
                   textAlign: 'left',
                   height: '100%',
@@ -802,9 +807,9 @@ const data = {
                     },
                     {
                       type: 'Typography.Text',
-                      id: 'OOIcn27SSZ',
+                      id: 'OOIcn27fSZ',
                       content:
-                        'These products might be new or need a little boost. Evaluate your marketing strategy increase exposure.',
+                        'These products might be new or need a little boost. Evaluate your marketing strategy to increase exposure.',
                     },
                   ],
                 },
@@ -904,12 +909,26 @@ const data = {
                 },
                 {
                   type: 'Typography.Text',
+                  id: '4Ioe4Tb4BB',
+                  props: {
+                    style: {
+                      display: 'block',
+                      textAlign: 'center',
+                      transform: 'rotate(-90deg) translate(-50%, -50%)',
+                      position: 'absolute',
+                      top: '50%',
+                    },
+                  },
+                  content: 'AOV ($)',
+                },
+                {
+                  type: 'Typography.Text',
                   id: '4Ioe4Tb4AA',
                   props: {
                     style: {
                       display: 'block',
                       textAlign: 'center',
-                      transform: 'translate(-50%, -50px)',
+                      transform: 'translate(-50%, -50%)',
                       position: 'absolute',
                       left: '50%',
                     },
