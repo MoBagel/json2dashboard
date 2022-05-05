@@ -16,7 +16,6 @@
     "prepare": "husky install",
     "test": "jest",
     "test-cov": "jest --coverage",
-    "i18n:fetch": "node ./i18n.js",
     "predeploy": "npm run build-tool",
     "deploy": "gh-pages -d build"
   },

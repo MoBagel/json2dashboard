@@ -6,12 +6,12 @@ import queryString from 'query-string';
 
 import renders from '../utils/render';
 
-import type { RenderProps } from '../Renderer';
+import type { RenderProps } from '../../Renderer';
 
 import RenderInside from '../utils/renderInside';
 
 const MenuList: React.FC<{
-  onDownload: MouseEventHandler<HTMLDivElement> | undefined;
+  onDownload?: MouseEventHandler<HTMLDivElement>;
 }> = ({ onDownload }): React.ReactElement => {
   return (
     <Menu>

@@ -5,9 +5,9 @@ import queryString from 'query-string';
 
 import data from './data';
 import './App.less';
-import './styles/global.less';
+import './Editor/styles/global.less';
 
-import ErrorBoundary from './ErrorBoundary';
+import ErrorBoundary from './Render/ErrorBoundary';
 
 import Dashboard from './Editor/Dashboard';
 import JSONHandler from './Editor/JSONHandler';

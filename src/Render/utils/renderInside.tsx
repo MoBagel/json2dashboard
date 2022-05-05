@@ -1,7 +1,7 @@
 import React from 'react';
-import Renderer from '../Renderer';
+import Renderer from '../../Renderer';
 
-import type { ChildrenJsonProps, ObjValue } from '../Renderer';
+import type { ChildrenJsonProps, ObjValue } from '../../Renderer';
 
 const renderInside = ({
   config,
@@ -14,7 +14,7 @@ const renderInside = ({
     content?: string | ((config) => string);
     variable?: Record<string, ObjValue>;
   };
-  injectProps?: any;
+  injectProps?: Record<string, ObjValue>;
   onSuccess: (res, configs) => void;
   onFail: (res, configs) => void;
 }) => {

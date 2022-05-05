@@ -1,10 +1,10 @@
 import React from 'react';
-import renders from './utils/render';
-import { DownloadTable, StyledLayout } from './components';
-import ErrorBoundary from './ErrorBoundary';
-import colors from './styles/color';
+import renders from './Render/utils/render';
+import { DownloadTable, StyledLayout } from './Render/components';
+import ErrorBoundary from './Render/ErrorBoundary';
+import colors from './Render/styles/color';
 
-import renderInside from './utils/renderInside';
+import renderInside from './Render/utils/renderInside';
 
 export interface ObjValue {
   props: string;
@@ -12,7 +12,7 @@ export interface ObjValue {
 }
 
 export type JsonProps = {
-  type: any;
+  type: string;
   id?: string;
   props?: Record<string, ObjValue>;
   children?: [ChildrenJsonProps];
@@ -99,17 +99,17 @@ const Renderer = (config: RenderProps) => {
             return {
               ...rest,
               render: (
-                _: any,
+                _: never,
                 record: JSX.IntrinsicAttributes & {
-                  type: any;
-                  id?: string | undefined;
-                  props: any;
-                  children: any;
-                  content?: any;
-                  isColumn?: boolean | undefined;
-                  isDownload?: boolean | undefined;
-                  variable?: any;
-                  media?: any;
+                  type: string;
+                  id?: string;
+                  props?: Record<string, ObjValue>;
+                  children?: [ChildrenJsonProps];
+                  content?: string | ((config) => string);
+                  isColumn?: boolean;
+                  isDownload?: boolean;
+                  variable?: Record<string, ObjValue>;
+                  media?: Record<string, ObjValue>;
                 },
               ) => (
                 <Renderer

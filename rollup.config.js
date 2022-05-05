@@ -52,10 +52,20 @@ export default {
         '**/__test__',
         '**/*.test.{js+(|x), ts+(|x)}',
         'node_modules/**',
-        '**/Editor'
+        '**/Editor',
       ],
       rollupCommonJSResolveHack: false,
       clean: true,
+      tsconfigOverride: {
+        exclude: [
+          '**/stories',
+          '*.stories.{js+(|x), ts+(|x)}',
+          '**/__test__',
+          '**/*.test.{js+(|x), ts+(|x)}',
+          'node_modules/**',
+          '**/Editor',
+        ],
+      },
     }),
     commonjs(),
     babel({

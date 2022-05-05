@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import renders from '../utils/render';
 
-import type { RenderProps } from '../Renderer';
+import type { RenderProps } from '../../Renderer';
 
 import RenderInside from '../utils/renderInside';
 

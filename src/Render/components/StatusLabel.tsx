@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import colors from '../styles/color';
 
-import type { RenderProps } from '../Renderer';
+import type { RenderProps } from '../../Renderer';
 
 const Label = styled.div`
   width: 13px;
