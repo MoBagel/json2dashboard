@@ -42,21 +42,71 @@ export interface RenderProps extends JsonProps {
   onFail: (res, configs) => void;
 }
 
-const Renderer = (config: RenderProps) => {
+const injectColorStyle = ({ props, injectStyles }) => {
+  let styles = { ...injectStyles };
+  Object.keys(props.style).forEach((key) => {
+    const getColor = colors[props.style[key]];
+    if (getColor) {
+      // eslint-disable-next-line no-param-reassign
+      styles = {
+        ...styles,
+        [key]: getColor,
+      };
+    }
+  });
+  return styles;
+};
+
+const injectVariablesToTableColumn = ({ injectProps, props, onSuccess, onFail }) => {
+  return {
+    ...injectProps,
+    columns: [...props.columns].map((item) => {
+      const { render, ...rest } = item;
+      if (typeof render === 'function') {
+        return { ...rest, render };
+      }
+      if (typeof render === 'object') {
+        return {
+          ...rest,
+          render: (
+            _: never,
+            record: JSX.IntrinsicAttributes & {
+              type: string;
+              id?: string;
+              props?: Record<string, ObjValue>;
+              children?: [ChildrenJsonProps];
+              content?: string | ((config) => string);
+              isColumn?: boolean;
+              isDownload?: boolean;
+              variable?: Record<string, ObjValue>;
+              media?: Record<string, ObjValue>;
+            },
+          ) => (
+            <Renderer
+              isColumn
+              {...injectProps}
+              {...record}
+              {...render}
+              onSuccess={onSuccess}
+              onFail={onFail}
+            />
+          ),
+        };
+      }
+      return { ...item, isColumn: true };
+    }),
+  };
+};
+
+function Renderer(config: RenderProps) {
   const { onSuccess, onFail } = config;
   let injectStyles;
   const props = config.props;
+
   if (props?.style) {
-    Object.keys(props.style).forEach((key) => {
-      const getColor = colors[props.style[key]];
-      if (getColor) {
-        injectStyles = {
-          ...injectStyles,
-          [key]: getColor,
-        };
-      }
-    });
+    injectStyles = injectColorStyle({ props, injectStyles });
   }
+
   if (config.isDownload) {
     if (config.type === 'Card') {
       return (
@@ -69,6 +119,7 @@ const Renderer = (config: RenderProps) => {
       );
     }
   }
+
   if (config.type === 'Layout' && config.media) {
     return (
       <StyledLayout
@@ -79,7 +130,9 @@ const Renderer = (config: RenderProps) => {
       />
     );
   }
+
   let injectProps = {};
+  // it use for table's column to pass variables from table's root
   if (config.isColumn) {
     injectProps = { ...injectProps, ...config };
   }
@@ -88,44 +141,7 @@ const Renderer = (config: RenderProps) => {
 
   if (typeof RenderComp !== 'undefined') {
     if (config.type === 'Table' && props && Array.isArray(props?.columns)) {
-      injectProps = {
-        ...injectProps,
-        columns: [...props.columns].map((item) => {
-          const { render, ...rest } = item;
-          if (typeof render === 'function') {
-            return { ...rest, render };
-          }
-          if (typeof render === 'object') {
-            return {
-              ...rest,
-              render: (
-                _: never,
-                record: JSX.IntrinsicAttributes & {
-                  type: string;
-                  id?: string;
-                  props?: Record<string, ObjValue>;
-                  children?: [ChildrenJsonProps];
-                  content?: string | ((config) => string);
-                  isColumn?: boolean;
-                  isDownload?: boolean;
-                  variable?: Record<string, ObjValue>;
-                  media?: Record<string, ObjValue>;
-                },
-              ) => (
-                <Renderer
-                  isColumn
-                  {...injectProps}
-                  {...record}
-                  {...render}
-                  onSuccess={onSuccess}
-                  onFail={onFail}
-                />
-              ),
-            };
-          }
-          return { ...item, isColumn: true };
-        }),
-      };
+      injectProps = injectVariablesToTableColumn({ injectProps, props, onSuccess, onFail });
     }
     return (
       <ErrorBoundary>
@@ -152,6 +168,6 @@ const Renderer = (config: RenderProps) => {
     );
   }
   return null;
-};
+}
 
 export default Renderer;

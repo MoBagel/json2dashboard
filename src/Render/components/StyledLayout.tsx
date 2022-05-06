@@ -15,29 +15,24 @@ const StyledLayout: React.FC<{
 }> = ({ config, injectStyles, onSuccess, onFail }) => {
   const RenderComp = renders(config.type);
   const media = config.media || {};
-
-  const isDevelop = process.env.NODE_ENV === 'development';
-
-  const containerTrack = isDevelop ? 'container' : 'media';
-
   return React.createElement(
     styled(RenderComp)`
-      @${containerTrack} (max-width: 576px) {
+      @media (max-width: 576px) {
         width: ${media.xs};
       }
-      @${containerTrack} (min-width: 576px) {
+      @media (min-width: 576px) {
         width: ${media.sm};
       }
-      @${containerTrack} (min-width: 768px) {
+      @media (min-width: 768px) {
         width: ${media.md};
       }
-      @${containerTrack} (min-width: 992px) {
+      @media (min-width: 992px) {
         width: ${media.lg};
       }
-      @${containerTrack} (min-width: 1200px) {
+      @media (min-width: 1200px) {
         width: ${media.xl};
       }
-      @${containerTrack} (min-width: 1600px) {
+      @media (min-width: 1600px) {
         width: ${media.xxl};
       }
     `,

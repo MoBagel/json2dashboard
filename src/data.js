@@ -299,6 +299,7 @@ const data = {
                 },
                 bordered: 'false',
               },
+              content: 213,
               children: [
                 {
                   type: 'Table',

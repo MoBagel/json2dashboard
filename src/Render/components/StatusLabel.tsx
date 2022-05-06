@@ -7,9 +7,9 @@ import type { RenderProps } from '../../Renderer';
 const Label = styled.div`
   width: 13px;
   height: 13px;
-  background: #eee;
   border-radius: 50%;
   background: ${(props) => props.bgColor || '#eee'};
+  ${(props) => props.style || ''};
 `;
 
 interface StatusLabelProps extends RenderProps {
