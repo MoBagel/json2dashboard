@@ -60,10 +60,10 @@ npm version [major | minor | patch]
 npm publish
 ```
 
-### How to use
+## How to use plugin
 
 #### Import component and pass prop
-You only need to pass `data`, `onSuccess` and `onFail`. you can see [data props](#data) to realize how many variables you can use.
+
 ```
 import Json2dashboard from 'json2dashboard';
 
@@ -75,6 +75,10 @@ return
   }
 ```
 You can see `src/Editor/Dashboard.tsx` that how to implement json2dashboard.
+
+### Props
+
+You only need to pass `data`, `onSuccess` and `onFail`. you can see [data props](#data) to realize how many variables you can use.
 
 ### onSuccess and onFail
 It will pass two parameter that are `response` and `config` for onSuccess and onFail callback function.
@@ -103,7 +107,7 @@ It will pass two parameter that are `response` and `config` for onSuccess and on
   }
 ```
 
-#### data
+### data
 
 There are the props you can use for render Component.
 
@@ -122,7 +126,7 @@ You can also check with sample data (`src/data.js`) to help you figure out how i
 | apiConfigs | It needs to use with `isDownload: true`. The settings means that click action and api call with setting. [Data Structure Link](#apiconfig) | Object (Api Request option) | Optional |
 | isDownload | Can use `isDownload` with Button and Table Component. It will render action with api call. You should also add apiConfigs | Boolean | Optional |
 
-#### media
+### media
 (Data schema)
 
 It will use `media.xs` or `media.sm` to generate css for each media.
@@ -148,7 +152,7 @@ It will use `media.xs` or `media.sm` to generate css for each media.
       }
 ```
 
-#### apiConfig
+### apiConfig
 There will use as API Request
 ```
   apiConfigs?: {
@@ -162,3 +166,14 @@ There will use as API Request
     options?: {};
   };
 ```
+
+
+### Solved problem
+- Media query custom breakpoint
+Use Layout to be wrapper and add `media` props to handle width in different device width.
+
+- Download Action on `Card` and `Link`
+Use `isDownload` prop to let Render Component to render `Card` with Download Component. I think it should need to upgraded to another better way to solve. But it did not occur other requirement. I don't want to over design it right now.
+
+- Table's column content need to dynamic render content
+It's a actually challenge. i use `render` function to get variable from table's root. But i should create function as a string to avoid json editor trim it. So i use `eval` to switch `render` as string between function.

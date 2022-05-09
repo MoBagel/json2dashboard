@@ -23,7 +23,7 @@ const MenuList: React.FC<{
   );
 };
 
-const DownloadTable: React.FC<{
+const DownloadCard: React.FC<{
   config: RenderProps;
   injectStyles: HTMLStyleElement;
   onSuccess: (res, configs) => void;
@@ -54,4 +54,4 @@ const DownloadTable: React.FC<{
   );
 };
 
-export default DownloadTable;
+export default DownloadCard;

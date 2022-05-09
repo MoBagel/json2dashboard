@@ -1,6 +1,6 @@
 import React from 'react';
 import renders from './Render/utils/render';
-import { DownloadTable, StyledLayout } from './Render/components';
+import { DownloadCard, StyledLayout } from './Render/components';
 import ErrorBoundary from './Render/ErrorBoundary';
 import colors from './Render/styles/color';
 
@@ -58,6 +58,7 @@ const injectColorStyle = ({ props, injectStyles }) => {
 };
 
 const injectVariablesToTableColumn = ({ injectProps, props, onSuccess, onFail }) => {
+  console.log(injectProps, props);
   return {
     ...injectProps,
     columns: [...props.columns].map((item) => {
@@ -107,17 +108,15 @@ function Renderer(config: RenderProps) {
     injectStyles = injectColorStyle({ props, injectStyles });
   }
 
-  if (config.isDownload) {
-    if (config.type === 'Card') {
-      return (
-        <DownloadTable
-          config={config}
-          injectStyles={injectStyles}
-          onSuccess={onSuccess}
-          onFail={onFail}
-        />
-      );
-    }
+  if (config.isDownload && config.type === 'Card') {
+    return (
+      <DownloadCard
+        config={config}
+        injectStyles={injectStyles}
+        onSuccess={onSuccess}
+        onFail={onFail}
+      />
+    );
   }
 
   if (config.type === 'Layout' && config.media) {
@@ -132,7 +131,7 @@ function Renderer(config: RenderProps) {
   }
 
   let injectProps = {};
-  // it use for table's column to pass variables from table's root
+  // it uses for table's column's inside render to pass variables from table's root
   if (config.isColumn) {
     injectProps = { ...injectProps, ...config };
   }

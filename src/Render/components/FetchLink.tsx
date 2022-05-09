@@ -14,7 +14,7 @@ interface LinkProps extends RenderProps {
   style: HTMLStyleElement;
 }
 
-const Link: React.FC<LinkProps> = (props) => {
+const FetchLink: React.FC<LinkProps> = (props) => {
   const { apiConfigs, injectStyles, onSuccess, onFail, style, variable, children } = props;
 
   const handleFetch = () => {
@@ -32,4 +32,4 @@ const Link: React.FC<LinkProps> = (props) => {
   );
 };
 
-export default Link;
+export default FetchLink;
