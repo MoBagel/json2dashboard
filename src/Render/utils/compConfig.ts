@@ -63,9 +63,8 @@ import {
 } from 'antd';
 import { StatusLabel, Link } from '../components';
 
-import { Line } from '@ant-design/charts';
 import type { LineConfig, PieConfig, ScatterConfig } from '@ant-design/plots';
-import { Pie, Scatter } from '@ant-design/plots';
+import { Line, Pie, Scatter } from '@ant-design/plots';
 import type { CardInterface } from 'antd/lib/card';
 import type { SliderRangeProps, SliderSingleProps } from 'antd/lib/slider';
 import type { CarouselRef } from 'antd/lib/carousel';

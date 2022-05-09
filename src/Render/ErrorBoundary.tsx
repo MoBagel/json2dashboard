@@ -1,9 +1,6 @@
-import React from 'react';
+import { Component } from 'react';
 
-class ErrorBoundary extends React.Component<
-  { children: React.ReactElement },
-  { hasError: boolean }
-> {
+class ErrorBoundary extends Component<{ children: React.ReactElement }, { hasError: boolean }> {
   state = { hasError: false };
 
   static getDerivedStateFromError() {

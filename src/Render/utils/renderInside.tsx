@@ -12,7 +12,7 @@ const renderInside = ({
   config: {
     children?: [ChildrenJsonProps];
     content?: string | ((config) => string);
-    variable?: Record<string, ObjValue>;
+    variable?: Record<string, string | number>;
   };
   injectProps?: Record<string, ObjValue>;
   onSuccess: (res, configs) => void;
@@ -24,7 +24,12 @@ const renderInside = ({
       : config.content
     : config.children &&
         config.children
-          .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
+          .sort((a, b): number => {
+            if (a?.order && b?.order) {
+              return a?.order - b?.order;
+            }
+            return 0;
+          })
           .map((c: any, index: number) => (
             <Renderer
               key={c?.id || index}

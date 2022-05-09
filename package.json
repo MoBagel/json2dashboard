@@ -111,6 +111,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "query-string": "^7.1.1"
+    "query-string": "^7.1.1",
+    "tslib": "^2.4.0"
   }
 }

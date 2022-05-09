@@ -14,13 +14,14 @@ export interface ObjValue {
 export type JsonProps = {
   type: string;
   id?: string;
+  root?: boolean;
   props?: Record<string, ObjValue>;
   children?: [ChildrenJsonProps];
   content?: string | ((config) => string);
   isColumn?: boolean;
   isDownload?: boolean;
-  variable?: Record<string, ObjValue>;
-  media?: Record<string, ObjValue>;
+  variable?: Record<string, string | number>;
+  media?: Record<string, string | number>;
   apiConfigs?: {
     method?: string;
     type: string;
@@ -28,13 +29,13 @@ export type JsonProps = {
     payload?: [string];
     query?: [string];
     dataType?: string;
-    headers?: Record<string, ObjValue>;
-    options?: Record<string, ObjValue>;
+    headers?: Record<string, string | number>;
+    options?: Record<string, string | number>;
   };
 };
 
 export interface ChildrenJsonProps extends JsonProps {
-  order: number;
+  order?: number;
 }
 
 export interface RenderProps extends JsonProps {
@@ -58,7 +59,6 @@ const injectColorStyle = ({ props, injectStyles }) => {
 };
 
 const injectVariablesToTableColumn = ({ injectProps, props, onSuccess, onFail }) => {
-  console.log(injectProps, props);
   return {
     ...injectProps,
     columns: [...props.columns].map((item) => {
