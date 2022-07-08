@@ -10,7 +10,7 @@
   "scripts": {
     "start": "craco start NODE_ENV=development",
     "build-tool": "craco build",
-    "lint-staged:js": "eslint 'src/**/*.{js,jsx,ts,tsx}?(x)'",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}?(x)'",
     "build": "rimraf dist && NODE_ENV=production BABEL_ENV=production rollup -c",
     "precommit": "lint-staged",
     "prepare": "husky install",
@@ -21,7 +21,7 @@
   },
   "lint-staged": {
     "src/*.{js,jsx,ts,tsx}": [
-      "npm run lint-staged:js",
+      "npm run lint",
       "jest --bail --findRelatedTests"
     ]
   },

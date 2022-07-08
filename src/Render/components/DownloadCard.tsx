@@ -7,7 +7,7 @@ import renders from '../utils/render';
 
 import type { RenderProps } from '../../Renderer';
 
-import RenderInside from '../utils/renderInside';
+import renderInside from '../utils/renderInside';
 
 import apiRequest from '../utils/apiRequest';
 
@@ -25,10 +25,9 @@ const MenuList: React.FC<{
 
 const DownloadCard: React.FC<{
   config: RenderProps;
-  injectStyles: HTMLStyleElement;
   onSuccess: (res, configs) => void;
   onFail: (res, configs) => void;
-}> = ({ config, injectStyles, onSuccess = () => {}, onFail = () => {} }) => {
+}> = ({ config, onSuccess = () => {}, onFail = () => {} }) => {
   const RenderComp = renders(config.type);
 
   const handleFetch = () => {
@@ -45,11 +44,11 @@ const DownloadCard: React.FC<{
           </a>
         </Dropdown>
       }
-      style={{ ...config?.props?.style, ...injectStyles }}
+      style={{ ...config?.props?.style }}
       onSuccess={onSuccess}
       onFail={onFail}
     >
-      {RenderInside({ config, onSuccess, onFail })}
+      {renderInside({ config, onSuccess, onFail })}
     </RenderComp>
   );
 };

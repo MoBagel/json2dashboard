@@ -7,6 +7,7 @@ import colors from './Render/styles/color';
 import renderInside from './Render/utils/renderInside';
 
 export interface ObjValue {
+  style: HTMLStyleElement;
   props: string;
   columns: [];
 }
@@ -15,7 +16,7 @@ export type JsonProps = {
   type: string;
   id?: string;
   root?: boolean;
-  props?: Record<string, ObjValue>;
+  props?: Record<string, any>;
   children?: [ChildrenJsonProps];
   content?: string | ((config) => string);
   isColumn?: boolean;
@@ -43,15 +44,15 @@ export interface RenderProps extends JsonProps {
   onFail: (res, configs) => void;
 }
 
-const injectColorStyle = ({ props, injectStyles }) => {
-  let styles = { ...injectStyles };
-  Object.keys(props.style).forEach((key) => {
-    const getColor = colors[props.style[key]];
-    if (getColor) {
+const injectColorStyle = (style: HTMLStyleElement): HTMLStyleElement => {
+  let styles = {...style}
+  Object.keys(style).forEach((key) => {
+    const colorHexCode = colors[style[key]];
+    if (colorHexCode) {
       // eslint-disable-next-line no-param-reassign
       styles = {
         ...styles,
-        [key]: getColor,
+        [key]: colorHexCode,
       };
     }
   });
@@ -101,18 +102,16 @@ const injectVariablesToTableColumn = ({ injectProps, props, onSuccess, onFail })
 
 function Renderer(config: RenderProps) {
   const { onSuccess, onFail } = config;
-  let injectStyles;
   const props = config.props;
 
-  if (props?.style) {
-    injectStyles = injectColorStyle({ props, injectStyles });
+  if (config.props?.style) {
+    config.props.style = injectColorStyle(config.props.style);
   }
 
   if (config.isDownload && config.type === 'Card') {
     return (
       <DownloadCard
         config={config}
-        injectStyles={injectStyles}
         onSuccess={onSuccess}
         onFail={onFail}
       />
@@ -123,7 +122,6 @@ function Renderer(config: RenderProps) {
     return (
       <StyledLayout
         config={config}
-        injectStyles={injectStyles}
         onSuccess={onSuccess}
         onFail={onFail}
       />
@@ -133,7 +131,7 @@ function Renderer(config: RenderProps) {
   let injectProps = {};
   // it uses for table's column's inside render to pass variables from table's root
   if (config.isColumn) {
-    injectProps = { ...injectProps, ...config };
+    injectProps = config;
   }
 
   const RenderComp = renders(config.type);
@@ -147,7 +145,7 @@ function Renderer(config: RenderProps) {
         <RenderComp
           {...props}
           {...injectProps}
-          style={{ ...props?.style, ...injectStyles }}
+          style={{ ...props?.style }}
           isColumn={config?.isColumn}
           isDownload={config?.isDownload}
           variable={config?.variable}

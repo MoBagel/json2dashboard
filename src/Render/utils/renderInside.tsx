@@ -24,12 +24,7 @@ const renderInside = ({
       : config.content
     : config.children &&
         config.children
-          .sort((a, b): number => {
-            if (a?.order && b?.order) {
-              return a?.order - b?.order;
-            }
-            return 0;
-          })
+          .sort((a, b) => (a?.order && b?.order) ? a.order - b.order : 0)
           .map((c: any, index: number) => (
             <Renderer
               key={c?.id || index}

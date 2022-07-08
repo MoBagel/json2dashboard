@@ -9,10 +9,9 @@ import RenderInside from '../utils/renderInside';
 
 const StyledLayout: React.FC<{
   config: RenderProps;
-  injectStyles: HTMLStyleElement;
   onSuccess: (res, configs) => void;
   onFail: (res, configs) => void;
-}> = ({ config, injectStyles, onSuccess, onFail }) => {
+}> = ({ config, onSuccess, onFail }) => {
   const RenderComp = renders(config.type);
   const media = config.media || {};
   return React.createElement(
@@ -39,7 +38,7 @@ const StyledLayout: React.FC<{
     {
       key: config.id,
       ...config.props,
-      style: { ...config?.props?.style, ...injectStyles },
+      style: { ...config?.props?.style },
     },
     RenderInside({ config, onSuccess, onFail }),
   );
