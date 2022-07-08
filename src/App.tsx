@@ -89,7 +89,7 @@ const App = () => {
       </Pane>
       <Pane>
         <LayoutContainer>
-          <ErrorBoundary>
+          <ErrorBoundary key={code}>
             <Dashboard data={code} onSuccess={handleSuccess} onFail={handleFail} />
           </ErrorBoundary>
         </LayoutContainer>

@@ -141,7 +141,7 @@ function Renderer(config: RenderProps) {
       injectProps = injectVariablesToTableColumn({ injectProps, props, onSuccess, onFail });
     }
     return (
-      <ErrorBoundary>
+      <ErrorBoundary key={new Date().getTime()}>
         <RenderComp
           {...props}
           {...injectProps}

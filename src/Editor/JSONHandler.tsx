@@ -46,21 +46,21 @@ const JSONHandler: React.FC<{
     updateMode(selectMode);
   };
 
-  const handleUpdateText = (inputValue) => {
-    try {
-      setText(inputValue);
-      updateCode(inputValue);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const handleError = (err) => {
     if (err.length) {
       console.log(err[0]?.message);
       setError(err[0]?.message);
     } else {
       setError('');
+    }
+  };
+
+  const handleUpdateText = (inputValue) => {
+    try {
+      setText(inputValue);
+      updateCode(inputValue);
+    } catch (err) {
+      handleError(err)
     }
   };
 
