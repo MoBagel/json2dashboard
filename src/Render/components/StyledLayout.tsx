@@ -18,22 +18,22 @@ const StyledLayout: React.FC<{
   return React.createElement(
     styled(RenderComp)`
       @media (max-width: 576px) {
-        width: ${media.xs};
+        width: ${media?.xs};
       }
       @media (min-width: 576px) {
-        width: ${media.sm};
+        width: ${media?.sm};
       }
       @media (min-width: 768px) {
-        width: ${media.md};
+        width: ${media?.md};
       }
       @media (min-width: 992px) {
-        width: ${media.lg};
+        width: ${media?.lg};
       }
       @media (min-width: 1200px) {
-        width: ${media.xl};
+        width: ${media?.xl};
       }
       @media (min-width: 1600px) {
-        width: ${media.xxl};
+        width: ${media?.xxl};
       }
     `,
     {

@@ -122,7 +122,6 @@ You can also check with sample data (`src/data.js`) to help you figure out how i
 | content | Use for render string. | function(variable) => string; \|\| string | Optional |
 | variable | It uses for passing value to content function. Should use with content: (variable) => variable.key | Object | Optional |
 | media | Setting width for each different media. You only can set it on Wrapper Layout. [Data Structure Link](#media)
- | Object {xs: string, sm: string} | Optional |
 | apiConfigs | It needs to use with `isDownload: true`. The settings means that click action and api call with setting. [Data Structure Link](#apiconfig) | Object (Api Request option) | Optional |
 | isDownload | Can use `isDownload` with Button and Table Component. It will render action with api call. You should also add apiConfigs | Boolean | Optional |
 
@@ -132,6 +131,16 @@ You can also check with sample data (`src/data.js`) to help you figure out how i
 It will use `media.xs` or `media.sm` to generate css for each media.
 
 ```
+media: {
+  xs?: string;
+  sm?: string;
+  md?: string;
+  lg?: string;
+  xl?: string;
+  xxl?: string;
+}
+
+=>
       @media (max-width: 576px) {
         width: ${media.xs};
       }
@@ -155,12 +164,12 @@ It will use `media.xs` or `media.sm` to generate css for each media.
 ### apiConfig
 There will use as API Request
 ```
-  apiConfigs?: {
+  apiConfigs: {
     method?: string;
     type: string;
     url: string;
     payload?: {};
-    query?: string ('file'),
+    query?: string,
     dataType?: string;
     headers?: {};
     options?: {};
