@@ -1,10 +1,7 @@
 module.exports = {
   // 'import/prefer-default-export': 2,
-  
-  extends: [
-    "eslint:recommended",
-    require.resolve('@umijs/fabric/dist/eslint')
-  ],
+
+  extends: ['eslint:recommended', require.resolve('@umijs/fabric/dist/eslint')],
   globals: {
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: true,
     page: true,

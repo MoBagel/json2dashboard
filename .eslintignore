@@ -5,3 +5,4 @@ dist
 mock
 i18n.js
 /doc
+__test__

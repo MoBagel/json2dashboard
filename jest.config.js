@@ -7,6 +7,7 @@ module.exports = {
     '^.+\\.(t|j)sx?$': 'ts-jest',
   },
   moduleNameMapper: {
-    "\\.(css|less)$": "identity-obj-proxy"
-  }
+    'lodash-es': 'lodash',
+    '\\.(css|less)$': 'identity-obj-proxy',
+  },
 };
