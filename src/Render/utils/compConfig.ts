@@ -69,6 +69,8 @@ import type { CardInterface } from 'antd/lib/card';
 import type { SliderRangeProps, SliderSingleProps } from 'antd/lib/slider';
 import type { CarouselRef } from 'antd/lib/carousel';
 import type { CompositionImage } from 'antd/lib/image';
+import DownloadCard from '../components/DownloadCard';
+import MediaLayout from '../components/MediaLayout';
 
 const CompConfig: {
   Card: CardInterface;
@@ -122,6 +124,8 @@ const CompConfig: {
   Timeline: typeof Timeline;
   Alert: typeof Alert;
   Link: typeof Link;
+  DownloadCard: typeof DownloadCard;
+  MediaLayout: typeof MediaLayout;
 } = {
   Card,
   Layout,
@@ -172,6 +176,8 @@ const CompConfig: {
   Timeline,
   Alert,
   Link,
+  DownloadCard,
+  MediaLayout,
 };
 
 export default CompConfig;

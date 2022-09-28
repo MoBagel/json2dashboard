@@ -29,8 +29,7 @@ const generateQueryStr = ({ apiConfigs, variable }) => {
   return queryStr;
 };
 
-const handleFetch = ({ config, onSuccess, onFail }) => {
-  const { apiConfigs, variable } = config;
+const handleFetch = ({ apiConfigs, variable , onSuccess, onFail }) => {
   if (apiConfigs?.url) {
     const body = generateBody({ apiConfigs, variable });
 

@@ -1,8 +1,11 @@
 const data = {
-  type: 'Layout',
-  root: true,
+  type: 'MediaLayout',
   id: 'JqxRosMePg',
   props: {
+    media: {
+      xxl: "720px",
+      md: "1200px",
+    },
     style: {
       background: '#f0f5fc',
     },
@@ -56,7 +59,7 @@ const data = {
                       type: 'Typography.Title',
                       id: 'RclUrYLPJU',
                       variable: {
-                        percentage: 'eda@overview@rp_ratio@value',
+                        percentage: '1',
                         _comment: 'percent repeat buyers',
                       },
                       content:
@@ -110,7 +113,7 @@ const data = {
                       type: 'Typography.Title',
                       id: '6U7DiWipm5',
                       variable: {
-                        days: 'eda@overview@rp_interval@value',
+                        days: '12',
                         _comment: 'average repurchase interval',
                       },
                       content: 'function (_ref) { let { days } = _ref; return `${days} days`; }',
@@ -163,7 +166,7 @@ const data = {
                       type: 'Typography.Title',
                       id: 'KM0uodkMeb',
                       variable: {
-                        average: 'eda@overview@aov@value',
+                        average: '12',
                         _comment: 'AOV(total)',
                       },
                       content:
@@ -217,7 +220,7 @@ const data = {
                       type: 'Typography.Title',
                       id: 'QbJJrY8XOm',
                       variable: {
-                        ltv: 'eda@overview@clv@value',
+                        ltv: '12',
                         _comment: 'average LTV',
                       },
                       content:
@@ -279,17 +282,11 @@ const data = {
           id: 'jJuTLOfKZS',
           children: [
             {
-              type: 'Card',
+              type: 'DownloadCard',
               id: 'oalqS69ia2',
-              isDownload: true,
-              apiConfigs: {
-                type: 'customer_segment',
-                url: '/job/download',
-                query: ['job_id', 'dag_run_id', 'file_name'],
-              },
               variable: {
-                job_id: 'dag_params@job_id@value',
-                dag_run_id: 'dag_params@dag_run_id@value',
+                job_id: '222',
+                dag_run_id: '333',
                 file_name: 'customer_segment_list.csv',
               },
               props: {
@@ -297,114 +294,16 @@ const data = {
                 style: {
                   textAlign: 'left',
                 },
+                label: 'Download RRRR',
                 bordered: 'false',
-              },
-              content: 213,
-              children: [
-                {
-                  type: 'Table',
-                  id: '1bbZec0E-c',
-                  props: {
-                    pagination: false,
-                    columns: [
-                      {
-                        title: 'Customer Segment',
-                        dataIndex: 'name',
-                        key: 'name',
-                        render: {
-                          type: 'Row',
-                          children: [
-                            {
-                              type: 'Col',
-                              props: {
-                                span: 1,
-                                style: {
-                                  paddingTop: '8px',
-                                  marginRight: '8px',
-                                },
-                              },
-                              children: [
-                                {
-                                  type: 'StatusLabel',
-                                },
-                              ],
-                            },
-                            {
-                              type: 'Col',
-                              props: {
-                                span: 25,
-                              },
-                              children: [
-                                {
-                                  type: 'Row',
-                                  props: {
-                                    justify: 'middle',
-                                    align: 'middle',
-                                  },
-                                  children: [
-                                    {
-                                      type: 'Typography.Text',
-                                      id: '8DHjnFnbsr',
-                                      content:
-                                        'function (_ref) {\n                let {\n                  tag\n                } = _ref;\n                return tag;\n              }',
-                                    },
-                                  ],
-                                },
-                                {
-                                  type: 'Typography.Text',
-                                  id: '8AHjSFnbsr',
-                                  content:
-                                    'function (_ref2) {\n              let {\n                description\n              } = _ref2;\n              return description;\n            }',
-                                },
-                              ],
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        title: 'Customers',
-                        dataIndex: 'customers',
-                        key: 'customers',
-                        render: {
-                          type: 'Typography.Text',
-                          content:
-                            "function ({ customers }) { return (Number(customers)||'-').toLocaleString()}",
-                        },
-                      },
-                      {
-                        title: 'Orders',
-                        dataIndex: 'orders',
-                        key: 'orders',
-                        render: {
-                          type: 'Typography.Text',
-                          content:
-                            "function ({ orders }) { return (Number(orders)||'-').toLocaleString()}",
-                        },
-                      },
-                      {
-                        title: 'AOV',
-                        dataIndex: 'aov',
-                        key: 'aov',
-                        render: {
-                          type: 'Typography.Text',
-                          content:
-                            "function ({ aov }) { return `$ ${(Number(aov)||'-').toLocaleString()}`}",
-                        },
-                      },
-                      {
-                        title: 'Revenue',
-                        dataIndex: 'revenue',
-                        key: 'revenue',
-                        render: {
-                          type: 'Typography.Text',
-                          content:
-                            "function ({ revenue }) { return `$ ${(Number(revenue)||'-').toLocaleString()}`}",
-                        },
-                      },
-                    ],
-                    dataSource: 'eda@customer_segment@json',
-                  },
+                apiConfigs: {
+                  type: 'customer_segment',
+                  url: '/job/download',
+                  query: ['job_id', 'dag_run_id', 'file_name'],
                 },
+              },
+              children: [
+                { type: 'Typography.Title', id: 'pUfqZgpH93', content: 'Customer Analysis' },
               ],
             },
           ],
@@ -547,11 +446,12 @@ const data = {
                           children: [
                             {
                               type: 'Link',
-                              isDownload: true,
-                              apiConfigs: {
-                                type: 'loyalty_gain',
-                                url: '/job/download',
-                                query: ['job_id', 'dag_run_id', 'file_name'],
+                              props: {
+                                apiConfigs: {
+                                  type: 'loyalty_gain',
+                                  url: '/job/download',
+                                  query: ['job_id', 'dag_run_id', 'file_name'],
+                                },
                               },
                               variable: {
                                 job_id: 'dag_params@job_id@value',
@@ -601,11 +501,12 @@ const data = {
                           children: [
                             {
                               type: 'Link',
-                              isDownload: true,
-                              apiConfigs: {
-                                type: 'sleeper_alert',
-                                url: '/job/download',
-                                query: ['job_id', 'dag_run_id', 'file_name'],
+                              props: {
+                                apiConfigs: {
+                                  type: 'sleeper_alert',
+                                  url: '/job/download',
+                                  query: ['job_id', 'dag_run_id', 'file_name'],
+                                },
                               },
                               variable: {
                                 job_id: 'dag_params@job_id@value',

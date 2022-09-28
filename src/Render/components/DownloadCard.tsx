@@ -1,19 +1,17 @@
 import React from 'react';
 import type { MouseEventHandler } from 'react';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, Card } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
-import renders from '../utils/render';
+// import type { RenderProps } from '../../Renderer';
 
-import type { RenderProps } from '../../Renderer';
-
-import renderInside from '../utils/renderInside';
+// import renderInside from '../utils/renderInside';
 
 import apiRequest from '../utils/apiRequest';
 
 const MenuList: React.FC<{
   onDownload?: MouseEventHandler<HTMLDivElement>;
-}> = ({ onDownload }): React.ReactElement => {
+}> = ({ onDownload }) => {
   return (
     <Menu>
       <Menu.Item>
@@ -23,33 +21,37 @@ const MenuList: React.FC<{
   );
 };
 
-const DownloadCard: React.FC<{
-  config: RenderProps;
-  onSuccess: (res, configs) => void;
-  onFail: (res, configs) => void;
-}> = ({ config, onSuccess = () => {}, onFail = () => {} }) => {
-  const RenderComp = renders(config.type);
-
+const DownloadCard: React.FC<any> = ({
+  variable,
+  apiConfigs,
+  onSuccess,
+  onFail,
+  children,
+  label,
+  ...restProps
+}) => {
   const handleFetch = () => {
-    return apiRequest({ config, onSuccess, onFail });
+    return apiRequest({
+      apiConfigs: apiConfigs,
+      variable: variable,
+      onSuccess,
+      onFail,
+    });
   };
 
   return (
-    <RenderComp
-      {...config.props}
+    <Card
+      {...restProps}
       extra={
         <Dropdown overlay={<MenuList onDownload={handleFetch} />}>
           <a className="ant-dropdown-link">
-            {config.content || 'Download'} <DownOutlined />
+            {label || 'Download'} <DownOutlined />
           </a>
         </Dropdown>
       }
-      style={{ ...config?.props?.style }}
-      onSuccess={onSuccess}
-      onFail={onFail}
     >
-      {renderInside({ config, onSuccess, onFail })}
-    </RenderComp>
+      {children}
+    </Card>
   );
 };
 

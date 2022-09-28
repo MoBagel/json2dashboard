@@ -1,6 +1,6 @@
 import StatusLabel from './StatusLabel';
 import Link from './FetchLink';
 import DownloadCard from './DownloadCard';
-import StyledLayout from './StyledLayout';
+import MediaLayout from './MediaLayout';
 
-export { StatusLabel, Link, DownloadCard, StyledLayout };
+export { StatusLabel, Link, DownloadCard, MediaLayout };

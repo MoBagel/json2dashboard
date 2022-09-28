@@ -35,11 +35,12 @@ describe('Test Renderer render component', () => {
   const renderFuncProps: RenderProps = {
     type: 'Typography.Title',
     id: 'RclUrYLPJU',
-    variable: {
-      percentage: '0.525',
+    props: {
+      variable: {
+        percentage: '0.525',
+      },
     },
-    props: {},
-    content: 'function (_ref) { let { percentage } = _ref; return `${percentage} %`; }',
+    content: 'function ({ percentage }) { return `${percentage} %`}',
     onSuccess: (): void => {},
     onFail: (): void => {},
   };

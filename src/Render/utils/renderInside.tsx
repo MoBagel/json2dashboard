@@ -1,4 +1,3 @@
-import React from 'react';
 import Renderer from '../../Renderer';
 
 import type { ChildrenJsonProps, ObjValue } from '../../Renderer';
@@ -12,24 +11,27 @@ const renderInside = ({
   config: {
     children?: [ChildrenJsonProps];
     content?: string | ((config) => string);
-    variable?: Record<string, string | number>;
+    props?: {
+      variable?: Record<string, string | number>;
+    };
   };
   injectProps?: Record<string, ObjValue>;
   onSuccess: (res, configs) => void;
   onFail: (res, configs) => void;
 }) => {
+  console.log(config);
   return config.content
     ? typeof config.content === 'function'
-      ? config.content({ ...config, ...config?.variable })
+      ? config.content({ ...config, ...config?.props?.variable })
       : config.content
     : config.children &&
         config.children
-          .sort((a, b) => (a?.order && b?.order) ? a.order - b.order : 0)
-          .map((c: any, index: number) => (
+          .sort((a, b) => (a?.order && b?.order ? a.order - b.order : 0))
+          .map((item: any, index: number) => (
             <Renderer
-              key={c?.id || index}
+              key={item?.id || index}
               {...injectProps}
-              {...c}
+              {...item}
               onSuccess={onSuccess}
               onFail={onFail}
             />

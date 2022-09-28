@@ -1,10 +1,11 @@
-import React from 'react';
 import renders from './Render/utils/render';
-import { DownloadCard, StyledLayout } from './Render/components';
 import ErrorBoundary from './Render/ErrorBoundary';
-import colors from './Render/styles/color';
+
+import { injectColorStyle } from './Render/utils/colorConvert';
 
 import renderInside from './Render/utils/renderInside';
+
+import type { ColumnsType } from 'antd/lib/table';
 
 export interface ObjValue {
   style: HTMLStyleElement;
@@ -12,17 +13,7 @@ export interface ObjValue {
   columns: [];
 }
 
-export type JsonProps = {
-  type: string;
-  id?: string;
-  root?: boolean;
-  props?: Record<string, any>;
-  children?: [ChildrenJsonProps];
-  content?: string | ((config) => string);
-  isColumn?: boolean;
-  isDownload?: boolean;
-  variable?: Record<string, string | number>;
-  media?: Record<string, string | number>;
+export type ApiConfigsType = {
   apiConfigs?: {
     method?: string;
     type: string;
@@ -35,6 +26,20 @@ export type JsonProps = {
   };
 };
 
+export interface PropsType extends ApiConfigsType {
+  variable?: Record<string, string | number>;
+  style?: HTMLStyleElement;
+  columns?: ColumnsType[];
+}
+
+export type JsonProps = {
+  type: string;
+  id?: string;
+  props?: PropsType;
+  children?: [ChildrenJsonProps];
+  content?: string | ((config) => string);
+};
+
 export interface ChildrenJsonProps extends JsonProps {
   order?: number;
 }
@@ -44,119 +49,45 @@ export interface RenderProps extends JsonProps {
   onFail: (res, configs) => void;
 }
 
-const injectColorStyle = (style: HTMLStyleElement): HTMLStyleElement => {
-  let styles = {...style}
-  Object.keys(style).forEach((key) => {
-    const colorHexCode = colors[style[key]];
-    if (colorHexCode) {
-      // eslint-disable-next-line no-param-reassign
-      styles = {
-        ...styles,
-        [key]: colorHexCode,
+const generateTableInjectColumn = ({ props, onSuccess, onFail }) => {
+  return [...props.columns].map((item) => {
+    const { render, ...rest } = item;
+    if (typeof render === 'object') {
+      return {
+        ...rest,
+        render: (_: never, record: JSX.IntrinsicAttributes & JsonProps) => (
+          <Renderer {...record} {...render} onSuccess={onSuccess} onFail={onFail} />
+        ),
       };
     }
+    return item;
   });
-  return styles;
-};
-
-const injectVariablesToTableColumn = ({ injectProps, props, onSuccess, onFail }) => {
-  return {
-    ...injectProps,
-    columns: [...props.columns].map((item) => {
-      const { render, ...rest } = item;
-      if (typeof render === 'function') {
-        return { ...rest, render };
-      }
-      if (typeof render === 'object') {
-        return {
-          ...rest,
-          render: (
-            _: never,
-            record: JSX.IntrinsicAttributes & {
-              type: string;
-              id?: string;
-              props?: Record<string, ObjValue>;
-              children?: [ChildrenJsonProps];
-              content?: string | ((config) => string);
-              isColumn?: boolean;
-              isDownload?: boolean;
-              variable?: Record<string, ObjValue>;
-              media?: Record<string, ObjValue>;
-            },
-          ) => (
-            <Renderer
-              isColumn
-              {...injectProps}
-              {...record}
-              {...render}
-              onSuccess={onSuccess}
-              onFail={onFail}
-            />
-          ),
-        };
-      }
-      return { ...item, isColumn: true };
-    }),
-  };
 };
 
 function Renderer(config: RenderProps) {
-  const { onSuccess, onFail } = config;
-  const props = config.props;
-
-  if (config.props?.style) {
-    config.props.style = injectColorStyle(config.props.style);
-  }
-
-  if (config.isDownload && config.type === 'Card') {
-    return (
-      <DownloadCard
-        config={config}
-        onSuccess={onSuccess}
-        onFail={onFail}
-      />
-    );
-  }
-
-  if (config.type === 'Layout' && config.media) {
-    return (
-      <StyledLayout
-        config={config}
-        onSuccess={onSuccess}
-        onFail={onFail}
-      />
-    );
-  }
-
-  let injectProps = {};
-  // it uses for table's column's inside render to pass variables from table's root
-  if (config.isColumn) {
-    injectProps = config;
-  }
+  const { onSuccess, onFail, props } = config;
 
   const RenderComp = renders(config.type);
 
   if (typeof RenderComp !== 'undefined') {
-    if (config.type === 'Table' && props && Array.isArray(props?.columns)) {
-      injectProps = injectVariablesToTableColumn({ injectProps, props, onSuccess, onFail });
+    // covert color from "navy20" to "#ccd3dd",
+    if (config.props?.style) {
+      config.props.style = injectColorStyle(config.props.style);
     }
+
+    if (config.type === 'Table' && config?.props && Array.isArray(config?.props?.columns)) {
+      config.props.columns = generateTableInjectColumn({
+        props: config.props,
+        onSuccess,
+        onFail,
+      });
+    }
+
     return (
       <ErrorBoundary key={new Date().getTime()}>
-        <RenderComp
-          {...props}
-          {...injectProps}
-          style={{ ...props?.style }}
-          isColumn={config?.isColumn}
-          isDownload={config?.isDownload}
-          variable={config?.variable}
-          media={config?.media}
-          apiConfigs={config?.apiConfigs}
-          onSuccess={onSuccess}
-          onFail={onFail}
-        >
+        <RenderComp {...props} onSuccess={onSuccess} onFail={onFail}>
           {renderInside({
             config,
-            injectProps,
             onSuccess,
             onFail,
           })}

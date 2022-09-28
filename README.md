@@ -18,21 +18,29 @@ yarn add json2dashboard
 npm install json2dashboard
 ```
 
-## Usage
+## How to use
 
 For example to implement `NotificationBar` component.
+And the data is json schema. You can see the data schema in the docuement [Data Structure Link](#data).
 
 ```
 import Json2dashboard from 'json2dashboard';
 
+const data = {
+  type: 'Layout',
+  props: {},
+  children: [{ 
+    type: 'div', 
+    content: 'hello world'
+  }]
+}
 ...
         <Json2dashboard {...data}/>
 ...
 ```
 
-## How to Develop
 
--
+## How to Develop
 
 ### Start local environment
 
@@ -40,27 +48,13 @@ import Json2dashboard from 'json2dashboard';
 yarn start
 ```
 
-### Deploy step
+You could take a look the path `src/Render/utils/compConfig.ts` to add Component.
+And if your component need complicate behavior. You can edit `src/Renderer.tsx` to handle it.
 
-We have already integrated `github action`. You just need create version tag on `github`. And it will automatically build and deploy on npm.
 
-You can see `.github/workflow/publish.yml`. It's CI/CD setting.
+### Render Flow 
 
-- if you still need to deploy from your local
-
-```
-yarn build
-
-// Update package.json version
-npm version [major | minor | patch]
-// major 0.0.0 -> 1.0.0
-// minor 0.0.0 -> 0.1.0
-// patch 0.0.0 -> 0.0.1
-
-npm publish
-```
-
-## How to use plugin
+<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/QuE7JXWXmBUYzTFpP93Kaf@VsSo8s35WwCCCaRgJpaE35"></iframe>
 
 #### Import component and pass prop
 
@@ -120,10 +114,15 @@ You can also check with sample data (`src/data.js`) to help you figure out how i
 | props | Current render Component's props. You should follow antd's document which props you can use. | Object | Required |
 | children | Component Props. (above all) | Object | Optional |
 | content | Use for render string. | function(variable) => string; \|\| string | Optional |
+
+
+## Inside props
+| Key | Description. | Type |  |
+| --- | --- | --- | --- |
 | variable | It uses for passing value to content function. Should use with content: (variable) => variable.key | Object | Optional |
 | media | Setting width for each different media. You only can set it on Wrapper Layout. [Data Structure Link](#media)
-| apiConfigs | It needs to use with `isDownload: true`. The settings means that click action and api call with setting. [Data Structure Link](#apiconfig) | Object (Api Request option) | Optional |
-| isDownload | Can use `isDownload` with Button and Table Component. It will render action with api call. You should also add apiConfigs | Boolean | Optional |
+| apiConfigs | The settings means that click action and api call with setting. [Data Structure Link](#apiconfig) | Object (Api Request option) | Optional |
+
 
 ### media
 (Data schema)
@@ -181,8 +180,27 @@ There will use as API Request
 - Media query custom breakpoint
 Use Layout to be wrapper and add `media` props to handle width in different device width.
 
-- Download Action on `Card` and `Link`
-Use `isDownload` prop to let Render Component to render `Card` with Download Component. I think it should need to upgraded to another better way to solve. But it did not occur other requirement. I don't want to over design it right now.
-
 - Table's column content need to dynamic render content
 It's a actually challenge. i use `render` function to get variable from table's root. But i should create function as a string to avoid json editor trim it. So i use `eval` to switch `render` as string between function.
+
+
+
+### Deploy step
+
+We have already integrated `github action`. You just need create version tag on `github`. And it will automatically build and deploy on npm.
+
+You can see `.github/workflow/publish.yml`. It's CI/CD setting.
+
+- if you still need to deploy from your local
+
+```
+yarn build
+
+// Update package.json version
+npm version [major | minor | patch]
+// major 0.0.0 -> 1.0.0
+// minor 0.0.0 -> 0.1.0
+// patch 0.0.0 -> 0.0.1
+
+npm publish
+```
