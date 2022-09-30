@@ -3,8 +3,8 @@ const data = {
   id: 'JqxRosMePg',
   props: {
     media: {
-      xxl: "720px",
-      md: "1200px",
+      xxl: '720px',
+      md: '1200px',
     },
     style: {
       background: '#f0f5fc',
@@ -58,9 +58,11 @@ const data = {
                     {
                       type: 'Typography.Title',
                       id: 'RclUrYLPJU',
-                      variable: {
-                        percentage: '1',
-                        _comment: 'percent repeat buyers',
+                      props: {
+                        variable: {
+                          percentage: '1',
+                          _comment: 'percent repeat buyers',
+                        },
                       },
                       content:
                         'function (_ref) { let { percentage } = _ref; return `${percentage} %`; }',
@@ -112,9 +114,11 @@ const data = {
                     {
                       type: 'Typography.Title',
                       id: '6U7DiWipm5',
-                      variable: {
-                        days: '12',
-                        _comment: 'average repurchase interval',
+                      props: {
+                        variable: {
+                          days: '12',
+                          _comment: 'average repurchase interval',
+                        },
                       },
                       content: 'function (_ref) { let { days } = _ref; return `${days} days`; }',
                     },
@@ -165,9 +169,11 @@ const data = {
                     {
                       type: 'Typography.Title',
                       id: 'KM0uodkMeb',
-                      variable: {
-                        average: '12',
-                        _comment: 'AOV(total)',
+                      props: {
+                        variable: {
+                          average: '12',
+                          _comment: 'AOV(total)',
+                        },
                       },
                       content:
                         'function (_ref) { let { average } = _ref; return `$ ${(Number(average)||"-").toLocaleString()}`; }',
@@ -219,9 +225,11 @@ const data = {
                     {
                       type: 'Typography.Title',
                       id: 'QbJJrY8XOm',
-                      variable: {
-                        ltv: '12',
-                        _comment: 'average LTV',
+                      props: {
+                        variable: {
+                          ltv: '12',
+                          _comment: 'average LTV',
+                        },
                       },
                       content:
                         'function (_ref) { let { ltv } = _ref; return `$ ${(Number(ltv)|| "-").toLocaleString()}`; }',
@@ -284,17 +292,17 @@ const data = {
             {
               type: 'DownloadCard',
               id: 'oalqS69ia2',
-              variable: {
-                job_id: '222',
-                dag_run_id: '333',
-                file_name: 'customer_segment_list.csv',
-              },
               props: {
+                variable: {
+                  job_id: '222',
+                  dag_run_id: '333',
+                  file_name: 'customer_segment_list.csv',
+                },
                 title: 'Customer Segment',
                 style: {
                   textAlign: 'left',
                 },
-                label: 'Download RRRR',
+                label: 'Download',
                 bordered: 'false',
                 apiConfigs: {
                   type: 'customer_segment',
@@ -344,7 +352,7 @@ const data = {
                   id: '5LN8Phgd5w',
                   props: {
                     appendPadding: 10,
-                    data: 'eda@customer_segments_by_percentage@json',
+                    data: [{ name: 1, count: 1, value: 1 }],
                     angleField: 'value',
                     colorField: 'type',
                     color: ['#99e9cc', '#9ce4fb', '#a68ada', '#fabbba', '#d8d8d8'],
@@ -432,10 +440,12 @@ const data = {
                         {
                           type: 'Typography.Text',
                           id: '8DHjnFnbeX',
-                          variable: {
-                            _comment: 'Loyal prediction',
-                            client: 'model@Loyal@increase@value',
-                            revenue: 'model@Loyal@estimated_revenue@value',
+                          props: {
+                            variable: {
+                              _comment: 'Loyal prediction',
+                              client: 'model@Loyal@increase@value',
+                              revenue: 'model@Loyal@estimated_revenue@value',
+                            },
                           },
                           content:
                             'function (_ref4) {\n    let {\n      client,\n      revenue\n    } = _ref4;\n    return `An increase in ${(Number(client)||"-").toLocaleString()} clients becoming Loyal customers, with an estimated revenue gain of $${(Number(revenue)||"-").toLocaleString()} (`;\n  }',
@@ -452,11 +462,11 @@ const data = {
                                   url: '/job/download',
                                   query: ['job_id', 'dag_run_id', 'file_name'],
                                 },
-                              },
-                              variable: {
-                                job_id: 'dag_params@job_id@value',
-                                dag_run_id: 'dag_params@dag_run_id@value',
-                                file_name: 'Loyal_list.csv',
+                                variable: {
+                                  job_id: 'dag_params@job_id@value',
+                                  dag_run_id: 'dag_params@dag_run_id@value',
+                                  file_name: 'Loyal_list.csv',
+                                },
                               },
                               content: '🔒 download list',
                             },
@@ -487,10 +497,12 @@ const data = {
                         {
                           type: 'Typography.Text',
                           id: 'tnGM9VYGCd',
-                          variable: {
-                            _comment: 'Sleeper (churn) alert',
-                            client: 'model@Sleepers@increase@value',
-                            revenue: 'model@Sleepers@estimated_revenue@value',
+                          props: {
+                            variable: {
+                              _comment: 'Sleeper (churn) alert',
+                              client: 'model@Sleepers@increase@value',
+                              revenue: 'model@Sleepers@estimated_revenue@value',
+                            },
                           },
                           content:
                             'function (_ref5) {\n    let {\n      client,\n      revenue\n    } = _ref5;\n    return `An increase in ${(Number(client)||"-").toLocaleString()} clients becoming Sleepers, with an estimated revenue loss of $${(Number(revenue)||"-").toLocaleString()} (`;\n  }',
@@ -507,11 +519,11 @@ const data = {
                                   url: '/job/download',
                                   query: ['job_id', 'dag_run_id', 'file_name'],
                                 },
-                              },
-                              variable: {
-                                job_id: 'dag_params@job_id@value',
-                                dag_run_id: 'dag_params@dag_run_id@value',
-                                file_name: 'Sleepers_list.csv',
+                                variable: {
+                                  job_id: 'dag_params@job_id@value',
+                                  dag_run_id: 'dag_params@dag_run_id@value',
+                                  file_name: 'Sleepers_list.csv',
+                                },
                               },
                               content: '🔒 download list',
                             },
@@ -614,7 +626,15 @@ const data = {
                         key: 'rank change',
                       },
                     ],
-                    dataSource: 'eda@product_ranking@json',
+                    dataSource: [
+                      {
+                        rank: 1,
+                        'product name': 'test',
+                        'rank change': 1,
+                        'percent revenue': '10',
+                        revenue: 10000,
+                      },
+                    ],
                     _comment: 'product ranking',
                   },
                 },
@@ -754,7 +774,12 @@ const data = {
                   props: {
                     appendPadding: 30,
                     autoFit: true,
-                    data: 'eda@product_insight_chart@data@json',
+                    data: [
+                      {
+                        name: 'a',
+                        value: 1,
+                      },
+                    ],
                     xField: '% Returning Customers',
                     yField: 'AOV',
                     sizeField: 'Total Customers',
@@ -790,8 +815,8 @@ const data = {
                       },
                     },
                     quadrant: {
-                      xBaseline: 'eda@product_insight_chart@mean_rp_ratio@value',
-                      yBaseline: 'eda@product_insight_chart@mean_aov@value',
+                      xBaseline: 'name',
+                      yBaseline: 'value',
                       labels: [
                         {
                           content: 'Quadrant B',

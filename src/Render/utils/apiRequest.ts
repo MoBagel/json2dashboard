@@ -1,5 +1,3 @@
-import queryString from 'query-string';
-
 const generateBody = ({ apiConfigs, variable }) => {
   return (
     apiConfigs?.payload &&
@@ -25,11 +23,11 @@ const generateQueryStr = ({ apiConfigs, variable }) => {
       }, {})) ||
     {};
 
-  const queryStr = Object.keys(querys).length ? `?${queryString.stringify(querys)}` : '';
+  const queryStr = Object.keys(querys).length ? `?${new URLSearchParams(querys).toString()}` : '';
   return queryStr;
 };
 
-const handleFetch = ({ apiConfigs, variable , onSuccess, onFail }) => {
+const handleFetch = ({ apiConfigs, variable, onSuccess, onFail }) => {
   if (apiConfigs?.url) {
     const body = generateBody({ apiConfigs, variable });
 

@@ -19,7 +19,6 @@ const renderInside = ({
   onSuccess: (res, configs) => void;
   onFail: (res, configs) => void;
 }) => {
-  console.log(config);
   return config.content
     ? typeof config.content === 'function'
       ? config.content({ ...config, ...config?.props?.variable })
