@@ -20,8 +20,7 @@ npm install json2dashboard
 
 ## How to use
 
-For example to implement `NotificationBar` component.
-And the data is json schema. You can see the data schema in the docuement [Data Structure Link](#data).
+For example to implement `NotificationBar` component. You can see the data schema in the docuement [Data Structure Link](#data).
 
 ```
 import Json2dashboard from 'json2dashboard';
@@ -29,16 +28,23 @@ import Json2dashboard from 'json2dashboard';
 const data = {
   type: 'Layout',
   props: {},
-  children: [{ 
-    type: 'div', 
+  children: [{
+    type: 'div',
     content: 'hello world'
   }]
 }
 ...
-        <Json2dashboard {...data}/>
+    <Json2dashboard {...data} onSuccess={handleSuccess} onFail={handleFail}/>
 ...
 ```
 
+### Follow antd document to pass props
+
+You can see antd's docuemnt to check which props you can use. We directly pass props to component. And we also create some custom component to fullfill some speific cases.
+
+You can view the whole components at this file. `- src/Render/utils/compConfig.ts`
+
+That means if you want to add more component that you just need to edit this file.
 
 ## How to Develop
 
@@ -48,36 +54,18 @@ const data = {
 yarn start
 ```
 
-You could take a look the path `src/Render/utils/compConfig.ts` to add Component.
-And if your component need complicate behavior. You can edit `src/Renderer.tsx` to handle it.
-
-
-### Render Flow 
-
-<iframe style="border:none" width="800" height="450" src="https://whimsical.com/embed/QuE7JXWXmBUYzTFpP93Kaf@VsSo8s35WwCCCaRgJpaE35"></iframe>
-
-#### Import component and pass prop
-
-```
-import Json2dashboard from 'json2dashboard';
-
-function Component(){
-return 
-  ...
-  <Json2dashboard data={data} onSuccess={handleSuccess} onFail={handleFail} />
-  ...
-  }
-```
-You can see `src/Editor/Dashboard.tsx` that how to implement json2dashboard.
+You could take a look the path `src/Render/utils/compConfig.ts` to add Component. And if your component need complicate behavior. You can edit `src/Renderer.tsx` to handle it.
 
 ### Props
 
-You only need to pass `data`, `onSuccess` and `onFail`. you can see [data props](#data) to realize how many variables you can use.
+You only need to pass `type`, `props`, `children`, `onSuccess` and `onFail`. you can see [data props](#data) to realize how many variables you can use.
 
 ### onSuccess and onFail
-It will pass two parameter that are `response` and `config` for onSuccess and onFail callback function.
+
+It's using on api call function. The function will pass two parameter that are `response` and `config` for onSuccess and onFail callback function.
 
 - sample code
+
 ```
   const handleSuccess = async (
     res: { status: number; blob: () => Blob; json: () => {} },
@@ -95,7 +83,7 @@ It will pass two parameter that are `response` and `config` for onSuccess and on
     res: { status: number; json: () => {} },
     config: { url: string; name: any; type: string },
   ) => {
-    if(res.status === 500) {
+    if (res.status === 500) {
       // do you error handle
     }
   }
@@ -115,16 +103,16 @@ You can also check with sample data (`src/data.js`) to help you figure out how i
 | children | Component Props. (above all) | Object | Optional |
 | content | Use for render string. | function(variable) => string; \|\| string | Optional |
 
-
 ## Inside props
+
 | Key | Description. | Type |  |
 | --- | --- | --- | --- |
 | variable | It uses for passing value to content function. Should use with content: (variable) => variable.key | Object | Optional |
-| media | Setting width for each different media. You only can set it on Wrapper Layout. [Data Structure Link](#media)
+| media | Setting width for each different media. You only can set it on Wrapper Layout. [Data Structure Link](#media) |
 | apiConfigs | The settings means that click action and api call with setting. [Data Structure Link](#apiconfig) | Object (Api Request option) | Optional |
 
-
 ### media
+
 (Data schema)
 
 It will use `media.xs` or `media.sm` to generate css for each media.
@@ -161,7 +149,9 @@ media: {
 ```
 
 ### apiConfig
+
 There will use as API Request
+
 ```
   apiConfigs: {
     method?: string;
@@ -175,15 +165,11 @@ There will use as API Request
   };
 ```
 
-
 ### Solved problem
-- Media query custom breakpoint
-Use Layout to be wrapper and add `media` props to handle width in different device width.
 
-- Table's column content need to dynamic render content
-It's a actually challenge. i use `render` function to get variable from table's root. But i should create function as a string to avoid json editor trim it. So i use `eval` to switch `render` as string between function.
+- Media query custom breakpoint Use Layout to be wrapper and add `media` props to handle width in different device width.
 
-
+- Table's column content need to dynamic render content It's a actually challenge. i use `render` function to get variable from table's root. But i should create function as a string to avoid json editor trim it. So i use `eval` to switch `render` as string between function.
 
 ### Deploy step
 

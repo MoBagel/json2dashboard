@@ -1,4 +1,4 @@
-const generateBody = ({ apiConfigs, variable }) => {
+export const generateBody = ({ apiConfigs, variable }) => {
   return (
     apiConfigs?.payload &&
     apiConfigs?.payload.reduce((obj, selectKey) => {
@@ -11,7 +11,7 @@ const generateBody = ({ apiConfigs, variable }) => {
   );
 };
 
-const generateQueryStr = ({ apiConfigs, variable }) => {
+export const generateQueryStr = ({ apiConfigs, variable }) => {
   const querys =
     (apiConfigs?.query &&
       apiConfigs?.query.reduce((obj, selectKey) => {
